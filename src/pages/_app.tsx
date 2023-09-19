@@ -1,6 +1,16 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import type { AppProps } from 'next/app';
+import { FC } from 'react';
+import '@/styles/globals.css';
+import { ToastContainer } from 'react-toastify';
+import { MainLayout } from '@/components/layouts/MainLayout';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
-}
+const App: FC<AppProps> = ({ Component, pageProps }) => {
+  return (
+    <MainLayout>
+      <Component {...pageProps} />
+      <ToastContainer position="bottom-left" autoClose={2000} />
+    </MainLayout>
+  );
+};
+
+export default App;
