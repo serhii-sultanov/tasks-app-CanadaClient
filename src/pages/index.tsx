@@ -1,5 +1,4 @@
 import { Auth } from '@/components/ui/Auth';
-import { Button } from '@/components/ui/Button';
 import { FC, useState } from 'react';
 
 const Home: FC = () => {
