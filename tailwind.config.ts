@@ -44,6 +44,9 @@ const config: Config = {
         mainGreen: '#218838',
         lightMain: '#e2e6ea',
         mainRed: '#df4553',
+        grayBg: '#dee2e6',
+        addBtnHover: '#cfd5db',
+        addBtnPlus: '#6c757d',
         inputPlaceholder: '#a1a3a7',
         grayStroke: {
           100: '#596268',
