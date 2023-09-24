@@ -21,7 +21,7 @@ const Clients: FC = () => {
             <button
               type="button"
               onClick={openModal}
-              className="w-8 h-8 rounded-full bg-grayBg text-addBtnPlus hover:bg-addBtnHover flex items-center justify-center"
+              className="w-8 h-8 rounded-full bg-grayBg text-grayMedium hover:bg-addBtnHover flex items-center justify-center"
             >
               <img src="/icons/plus-icon.svg" alt="add" className="w-4 h-4" />
             </button>
