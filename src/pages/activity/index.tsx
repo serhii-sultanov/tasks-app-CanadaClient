@@ -1,5 +1,4 @@
 import { ActivityItem } from '@/components/activity/ActivityItem';
-import { AddNewTask } from '@/components/ui/AddNewTask';
 import { FC } from 'react';
 
 const Activity: FC = () => {
@@ -12,7 +11,6 @@ const Activity: FC = () => {
             <p className="text-s14 text-grayStroke-70">Filter activity</p>
           </div>
         </div>
-        <AddNewTask />
         <div className="flex flex-col bg-grayStroke-50 border border-grayStroke-50 rounded-md">
           {/* Map data with activity */}
           <ActivityItem />
@@ -26,7 +24,6 @@ const Activity: FC = () => {
           <ActivityItem />
           <ActivityItem />
           <ActivityItem />
-          AA
         </div>
       </div>
     </section>
