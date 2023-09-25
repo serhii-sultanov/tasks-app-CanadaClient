@@ -30,7 +30,7 @@ const Clients: FC = () => {
             <p className="text-s14 text-grayStroke-70">Filter tasks</p>
           </div>
         </div>
-        <ContentBox>
+        <ContentBox title="Evaluation">
           <ContentItem
             name="John Smith"
             email="mamail@gmai.com"
