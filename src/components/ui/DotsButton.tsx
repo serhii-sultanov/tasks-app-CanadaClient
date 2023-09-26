@@ -14,7 +14,7 @@ export const DotsButton: FC<DotsButtonProps> = ({ children }) => {
   return (
     <div
       onClick={toggleMenu}
-      className="hover:bg-addBtnHover cursor-pointer rounded-full min-w-[32px] min-h-[32px] flex items-center justify-center relative"
+      className="hover:bg-addBtnHover cursor-pointer rounded-full min-w-xsMinWidth min-h-xsMinHeght flex items-center justify-center relative"
     >
       <img src="/icons/dots-vertical-icon.svg" alt="dots" className="w-6 h-6" />
       {isMenuOpen && (

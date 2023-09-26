@@ -50,11 +50,11 @@ export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
                 required: 'Email is required!',
               })}
             />
-            {errors.email && (
+            {errors.email ? (
               <span className="absolute left-1 -top-3 text-mainRed text-xs10">
-                {errors.email.message}
+                * {errors.email.message}
               </span>
-            )}
+            ) : null}
           </label>
           <label className="relative">
             <input
@@ -72,11 +72,11 @@ export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
                 },
               })}
             />
-            {errors.password && (
+            {errors.password ? (
               <span className="absolute left-1 -top-3 text-mainRed text-xs10">
-                {errors.password.message}
+                * {errors.password.message}
               </span>
-            )}
+            ) : null}
           </label>
           <Button
             type="submit"

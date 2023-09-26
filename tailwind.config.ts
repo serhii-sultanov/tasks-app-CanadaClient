@@ -16,6 +16,12 @@ const config: Config = {
         loginContainer: '500px',
         mainContainer: 'calc(100vw - 264px)',
       },
+      minWidth: {
+        xsMinWidth: '32px',
+      },
+      minHeight: {
+        xsMinHeght: '32px',
+      },
       fontSize: {
         xs10: ['10px', '12px'],
         xs12: ['12px', '16px'],
