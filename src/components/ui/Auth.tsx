@@ -1,16 +1,22 @@
-import { FC } from 'react';
-import { Button } from './Button';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { TUserLoginInfo } from '@/types/auth';
+import axios, { AxiosError } from 'axios';
 import clsx from 'clsx';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { FC } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { Button } from './Button';
+
+type TError = {
+  error: string;
+  message: string;
+  statusCode: number;
+};
 
 type AuthProps = {
   isLogin: boolean;
   setIsLogin: () => void;
-};
-
-type UserLoginInfo = {
-  email: string;
-  password: string;
 };
 
 export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
@@ -19,11 +25,48 @@ export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<UserLoginInfo>();
+  } = useForm<TUserLoginInfo>();
 
-  const loginFormSubmit: SubmitHandler<UserLoginInfo> = async (credentials) => {
-    const { email, password } = credentials;
-    console.log(credentials);
+  const { replace, asPath } = useRouter();
+
+  const loginFormSubmit: SubmitHandler<TUserLoginInfo> = async (
+    credentials,
+  ) => {
+    if (isLogin) {
+      const res = await signIn('credentials', {
+        ...credentials,
+        redirect: false,
+      });
+
+      if (res?.ok) {
+        reset();
+        replace(asPath);
+      }
+    } else {
+      await axios
+        .post(
+          `${process.env.NEXT_PUBLIC_DATABASE_URL}/auth/registration`,
+          credentials,
+        )
+        .then((resp) => {
+          console.log(resp);
+
+          if (resp.data.token) {
+            toast.success('Registration success.');
+          }
+        })
+        .catch((data: AxiosError<TError>) =>
+          console.log(data.response?.data?.message),
+        );
+
+      //   toast.success(data.response?.data?.message),
+      // }
+
+      // if (registration) {
+      //   toast.success('Registration success.');
+      //   setIsLogin();
+      // }
+    }
   };
 
   return (
