@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 const Activity: FC = () => {
   return (
-    <section className={'pt-5 pb-10'}>
+    <section className={'pt-5 pb-10 max-w-7xl mx-auto'}>
       <div className="max-w-container mx-auto w-full px-12">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-md26 font-medium text-black">Activity</h1>

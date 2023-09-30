@@ -23,9 +23,11 @@ const config: Config = {
         xsMinHeght: '32px',
       },
       fontSize: {
+        xs10: ['10px', '12px'],
         xs12: ['12px', '16px'],
         s14: ['14px', '20px'],
-        sm16: ['16px', '28px'],
+        sm16: ['16px', '24px'],
+        md20: ['20px', '28px'],
         md24: ['24px', '32px'],
         md26: ['26px', '36px'],
         l32: ['32px', '38px'],

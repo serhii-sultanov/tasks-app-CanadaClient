@@ -1,5 +1,7 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { Button } from '../ui/Button';
+import Link from 'next/link';
+import { ROUTE } from '@/utils/routes';
 
 export const AsideActions: FC = () => {
   const [dropdown, setDropDown] = useState<boolean>(false);
@@ -23,18 +25,20 @@ export const AsideActions: FC = () => {
         </Button>
         {dropdown ? (
           <div className="p-2 absolute top-[105%] left-0 bg-white border border-grayStroke-60 min-w-[10rem] rounded-lg text-left">
-            <a
+            <Link
+              href={ROUTE.ADD_NEW_TASK}
               onClick={() => setDropDown(false)}
               className="block w-full cursor-pointer hover:bg-grayStroke-30 py-1 px-3.5 whitespace-nowrap bg-transparent font-medium rounded-md text-s14 text-mainBLue"
             >
               Add New Task
-            </a>
-            <a
+            </Link>
+            <Link
+              href={ROUTE.ADD_NEW_FILE}
               onClick={() => setDropDown(false)}
               className="block w-full cursor-pointer hover:bg-grayStroke-30 py-1 px-3.5 whitespace-nowrap bg-transparent font-medium rounded-md text-s14 text-mainBLue"
             >
               Add New File
-            </a>
+            </Link>
           </div>
         ) : null}
       </div>

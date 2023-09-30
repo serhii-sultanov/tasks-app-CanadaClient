@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import clsx from 'clsx';
 
 type ActionButtonProps = {
   type: 'delete' | 'edit';
   onClick: () => void;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export const ActionButton: FC<ActionButtonProps> = ({

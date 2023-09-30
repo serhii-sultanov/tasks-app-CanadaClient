@@ -1,7 +1,7 @@
-import { FC, useState, useRef, useEffect } from 'react';
+import { FC, ReactNode, useState, useRef, useEffect } from 'react';
 
 type DotsButtonProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export const DotsButton: FC<DotsButtonProps> = ({ children }) => {
