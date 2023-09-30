@@ -4,6 +4,7 @@ import { Aside } from './Aside';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { ROUTE } from '@/utils/routes';
+import { useSession } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,15 +14,24 @@ type MainLayoutProps = {
 
 export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const { pathname } = useRouter();
+  const { data } = useSession();
+
   return (
-    <div className={`${inter.className} flex bg-grayStroke-40`}>
+    <div
+      className={clsx(
+        inter.className,
+        'bg-grayStroke-40',
+        data?.user.role === 'admin' ? 'flex' : null,
+      )}
+    >
       <Aside />
       <main
         className={clsx(
           'overflow-hidden flex-1',
           pathname === ROUTE.HOME
             ? 'max-w-loginContainer mx-auto px-3.5'
-            : 'max-w-mainContainer',
+            : null,
+          data?.user.role !== 'admin' ? 'max-w-container mx-auto px-3.5' : null,
         )}
       >
         {children}

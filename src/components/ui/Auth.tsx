@@ -1,16 +1,22 @@
-import { FC } from 'react';
-import { Button } from './Button';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { TUserLoginInfo } from '@/types/auth';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { FC } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { Button } from './Button';
+
+type TError = {
+  error: string;
+  message: string;
+  statusCode: number;
+};
 
 type AuthProps = {
   isLogin: boolean;
   setIsLogin: () => void;
-};
-
-type UserLoginInfo = {
-  email: string;
-  password: string;
 };
 
 export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
@@ -19,11 +25,41 @@ export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<UserLoginInfo>();
+  } = useForm<TUserLoginInfo>();
 
-  const loginFormSubmit: SubmitHandler<UserLoginInfo> = async (credentials) => {
-    const { email, password } = credentials;
-    console.log(credentials);
+  const { replace, asPath } = useRouter();
+
+  const loginFormSubmit: SubmitHandler<TUserLoginInfo> = async (
+    credentials,
+  ) => {
+    if (isLogin) {
+      const res = await signIn('credentials', {
+        ...credentials,
+        redirect: false,
+      });
+
+      if (res?.ok) {
+        reset();
+        replace(asPath);
+      } else {
+        toast.error('Wrong credentials');
+      }
+    } else {
+      await axios
+        .post(
+          `${process.env.NEXT_PUBLIC_DATABASE_URL}/auth/registration`,
+          credentials,
+        )
+        .then((resp: AxiosResponse<{ token: string }>) => {
+          if (resp.data.token) {
+            toast.success('Registration success.');
+            setIsLogin();
+          }
+        })
+        .catch((data: AxiosError<TError>) =>
+          toast.error(data.response?.data?.message),
+        );
+    }
   };
 
   return (
@@ -80,7 +116,7 @@ export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
           </label>
           <Button
             type="submit"
-            classNameModificator="bg-mainBlue text-sm14 hover:bg-blueHover transition-all duration-200"
+            classNameModificator="bg-mainBlue text-white text-sm14 hover:bg-blueHover transition-all duration-200"
           >
             {isLogin ? 'Sign In' : 'Create account'}
           </Button>
@@ -88,7 +124,7 @@ export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
       </form>
       <Button
         onClick={setIsLogin}
-        classNameModificator="text-xs14 text-[#027bff] mt-4 mb-2 transition-all duration-20"
+        classNameModificator="text-xs14 text-mainBLue mt-4 mb-2 transition-all duration-20"
       >
         {isLogin ? "You don't have an account?" : 'Already have an account?'}
       </Button>
