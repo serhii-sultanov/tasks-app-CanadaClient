@@ -1,4 +1,5 @@
 export const ROUTE = {
+  OPENTASKS: '/open-tasks',
   ACTIVITY: '/activity',
   CLIENTS: '/clients',
   USER_ACCOUNT: '/user-account',
