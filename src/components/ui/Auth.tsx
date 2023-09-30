@@ -41,6 +41,8 @@ export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
       if (res?.ok) {
         reset();
         replace(asPath);
+      } else {
+        toast.error('Wrong credentials');
       }
     } else {
       await axios
@@ -49,15 +51,13 @@ export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
           credentials,
         )
         .then((resp: AxiosResponse<{ token: string }>) => {
-          console.log(resp);
-
           if (resp.data.token) {
             toast.success('Registration success.');
             setIsLogin();
           }
         })
         .catch((data: AxiosError<TError>) =>
-          console.log(data.response?.data?.message),
+          toast.error(data.response?.data?.message),
         );
     }
   };
@@ -116,7 +116,7 @@ export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
           </label>
           <Button
             type="submit"
-            classNameModificator="bg-mainBlue text-sm14 hover:bg-blueHover transition-all duration-200"
+            classNameModificator="bg-mainBlue text-white text-sm14 hover:bg-blueHover transition-all duration-200"
           >
             {isLogin ? 'Sign In' : 'Create account'}
           </Button>
@@ -124,7 +124,7 @@ export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
       </form>
       <Button
         onClick={setIsLogin}
-        classNameModificator="text-xs14 text-[#027bff] mt-4 mb-2 transition-all duration-20"
+        classNameModificator="text-xs14 text-mainBLue mt-4 mb-2 transition-all duration-20"
       >
         {isLogin ? "You don't have an account?" : 'Already have an account?'}
       </Button>
