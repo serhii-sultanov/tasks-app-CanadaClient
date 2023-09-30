@@ -16,6 +16,12 @@ const config: Config = {
         loginContainer: '500px',
         mainContainer: 'calc(100vw - 264px)',
       },
+      minWidth: {
+        xsMinWidth: '32px',
+      },
+      minHeight: {
+        xsMinHeght: '32px',
+      },
       fontSize: {
         xs12: ['12px', '16px'],
         s14: ['14px', '20px'],
@@ -44,7 +50,16 @@ const config: Config = {
         mainGreen: '#218838',
         lightMain: '#e2e6ea',
         mainRed: '#df4553',
+        grayBg: '#dee2e6',
+        addBtnHover: '#cfd5db',
+        actionBtnHover: '#e9ecef',
+        grayMedium: '#6c757d',
+        grayStrong: '#30353c',
         inputPlaceholder: '#a1a3a7',
+        btnBlue: '#007bff',
+        btnBlueHover: '#006fe6',
+        btnRed: '#dc3545',
+        btnRedHover: '#a71d2a',
         grayStroke: {
           100: '#596268',
           90: '#494e54',
