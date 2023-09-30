@@ -1,6 +1,6 @@
 import { TLogin } from '@/types/auth';
 import { ROUTE } from '@/utils/routes';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import NextAuth, { type AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -21,12 +21,12 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        const loginData: TLogin = await axios
+        const loginData = await axios
           .post(
             `${process.env.NEXT_PUBLIC_DATABASE_URL}/auth/login`,
             credentials,
           )
-          .then((resp) => resp.data);
+          .then((resp: AxiosResponse<TLogin>) => resp.data);
 
         return {
           id: loginData.id,

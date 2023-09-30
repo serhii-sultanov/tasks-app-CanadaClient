@@ -1,5 +1,5 @@
 import { TUserLoginInfo } from '@/types/auth';
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -48,24 +48,17 @@ export const Auth: FC<AuthProps> = ({ isLogin, setIsLogin }) => {
           `${process.env.NEXT_PUBLIC_DATABASE_URL}/auth/registration`,
           credentials,
         )
-        .then((resp) => {
+        .then((resp: AxiosResponse<{ token: string }>) => {
           console.log(resp);
 
           if (resp.data.token) {
             toast.success('Registration success.');
+            setIsLogin();
           }
         })
         .catch((data: AxiosError<TError>) =>
           console.log(data.response?.data?.message),
         );
-
-      //   toast.success(data.response?.data?.message),
-      // }
-
-      // if (registration) {
-      //   toast.success('Registration success.');
-      //   setIsLogin();
-      // }
     }
   };
 
