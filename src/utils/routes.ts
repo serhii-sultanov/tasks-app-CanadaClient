@@ -1,9 +1,10 @@
 export const ROUTE = {
+  HOME: '/',
   OPENTASKS: '/open-tasks',
   ACTIVITY: '/activity',
   CLIENTS: '/clients',
-  USER_ACCOUNT: '/user-account',
-  HOME: '/',
   ADD_NEW_TASK: '/add-new-task',
-  ADD_NEW_FILE: '/add-new-file',
+  USER_ACCOUNT: '/user-account',
+  USER_TASK_LIST: '/user-task-list',
+  USER_TASK: '/user-task-list/:id',
 };

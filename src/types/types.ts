@@ -80,3 +80,10 @@ export type TTaskReminder = TDate & {
   _id: string;
   dayBetween: string;
 };
+
+export type ActivityResponse = {
+  data: {
+    activityPerPage: TActivity[];
+    totalActivity: number;
+  };
+};
