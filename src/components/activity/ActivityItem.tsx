@@ -1,13 +1,79 @@
-import { FC } from 'react';
+import type { TActivity } from '@/types/types';
+import { convertDynamicDate } from '@/utils/convertDate';
+import { downloadFile } from '@/utils/downloadFile';
+import { ROUTE } from '@/utils/routes';
+import Link from 'next/link';
+import { FC, useMemo } from 'react';
 import { ActivityPhoto } from './ActivityPhoto';
-import { ActivityContent } from './ActivityContent';
 
-export const ActivityItem: FC = () => {
+type ActivityItemProps = {
+  activity: TActivity;
+};
+
+export const ActivityItem: FC<ActivityItemProps> = ({ activity }) => {
+  const {
+    activity_files,
+    createdAt,
+    user_id: { firstName, lastName, email },
+    task_id,
+    updatedAt,
+  } = activity;
+
+  const { formattedDynamicCreatedAt } = useMemo(() => {
+    return convertDynamicDate(createdAt, updatedAt);
+  }, [createdAt, updatedAt]);
+
+  const fullName = firstName || lastName ? `${firstName} ${lastName}` : email;
+
   return (
-    <div className="bg-white last:mb-0 first:rounded-tl-md first:rounded-tr-md last:rounded-br-md last:rounded-bl-md min-h-[100px] border border-grayStroke-50 py-3 px-5 flex justify-start items-center">
+    <div className="bg-white last:mb-0 first:rounded-tl-md first:rounded-tr-md last:rounded-br-md last:rounded-bl-md border min-h-[100px] border-grayStroke-50 py-3 px-5 flex justify-start items-center">
       <div className="flex items-center">
-        <ActivityPhoto />
-        <ActivityContent />
+        <ActivityPhoto
+          fullName={
+            firstName || lastName
+              ? `${firstName.slice(0, 1)}${lastName.slice(0, 1)}`
+              : email.slice(0, 2)
+          }
+        />
+        <div className="grow">
+          <h4 className="text-grayStroke-100 max-sm:text-s14">
+            <span className="text-black font-medium text-sm16 max-sm:text-s14">
+              {fullName}
+            </span>{' '}
+            commented on{' '}
+            <Link
+              href={`${ROUTE.USER_ACCOUNT}/${task_id._id}`}
+              target="_blank"
+              className="text-mainBLue max-sm:text-s14 hover:text-btnBlueHover"
+            >
+              {task_id.task_title}
+            </Link>
+          </h4>
+          {activity_files.length ? (
+            <h4 className="text-grayStroke-100 mb-1 max-sm:text-s14">
+              With attached file(s):
+            </h4>
+          ) : null}
+          {activity_files.length ? (
+            <div className="flex flex-col items-start">
+              {activity_files.map((file, idx) => (
+                <button
+                  className="text-mainBLue text-xs break-words hover:text-btnBlueHover"
+                  key={file._id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    downloadFile(file);
+                  }}
+                >
+                  {`${1 + idx}`}. {file.file_originalName}
+                </button>
+              ))}
+            </div>
+          ) : null}
+          <span className="text-grayStroke-70 text-s14 first-letter:uppercase block max-sm:text-xs12 mt-1">
+            {formattedDynamicCreatedAt}
+          </span>
+        </div>
       </div>
     </div>
   );
