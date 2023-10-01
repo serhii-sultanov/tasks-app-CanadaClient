@@ -70,7 +70,10 @@ export const ActivityItem: FC<ActivityItemProps> = ({ activity }) => {
               ))}
             </div>
           ) : null}
-          <span className="text-grayStroke-70 text-s14 first-letter:uppercase block max-sm:text-xs12 mt-1">
+          <span
+            className="text-grayStroke-70 text-s14 first-letter:uppercase block max-sm:text-xs12 mt-1"
+            suppressHydrationWarning
+          >
             {formattedDynamicCreatedAt}
           </span>
         </div>

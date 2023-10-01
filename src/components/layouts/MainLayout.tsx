@@ -17,21 +17,15 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const { data } = useSession();
 
   return (
-    <div
-      className={clsx(
-        inter.className,
-        'bg-grayStroke-40',
-        data?.user.role === 'admin' ? 'flex' : null,
-      )}
-    >
+    <div className={clsx(inter.className, 'bg-grayStroke-40 flex items-start')}>
       <Aside />
       <main
         className={clsx(
-          'overflow-hidden flex-1',
+          'flex-1 relative',
           pathname === ROUTE.HOME
             ? 'max-w-loginContainer mx-auto px-3.5'
             : null,
-          data?.user.role !== 'admin' ? 'max-w-container mx-auto px-3.5' : null,
+          data?.user.role === 'admin' ? 'max-w-container mx-auto px-3.5' : null,
         )}
       >
         {children}
