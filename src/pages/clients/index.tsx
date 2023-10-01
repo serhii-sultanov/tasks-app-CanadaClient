@@ -1,8 +1,45 @@
 import { ContentBox } from '@/components/clients/ContentBox';
 import { ContentItem } from '@/components/clients/ContentItem';
+import { TUser } from '@/types/types';
+import axios from 'axios';
+import { getSession } from 'next-auth/react';
+import { GetServerSideProps } from 'next/types';
 import { FC, useState } from 'react';
 
-const Clients: FC = () => {
+type ClientsProps = {
+  clientsPerPage: TUser[];
+  pageNum?: number;
+  pagesCount?: number;
+};
+
+export const getServerSideProps: GetServerSideProps<ClientsProps> = async (
+  ctx,
+) => {
+  const session = await getSession(ctx);
+  let pageNum = 1;
+  if (Number(ctx.query.page) >= 0) pageNum = Number(ctx.query.page);
+
+  try {
+    const response = await axios.get<ClientsProps>(
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/admin/clients?page=${pageNum}&pageSize=10`,
+      { headers: { Authorization: `Bearer ${session?.user.token}` } },
+    );
+    const pagesCount = Math.ceil(response.data.clientsPerPage.length / 3);
+    return {
+      props: {
+        clientsPerPage: response.data.clientsPerPage,
+        pageNum,
+        pagesCount,
+      },
+    };
+  } catch (error) {
+    return {
+      props: { clientsPerPage: [], pageNum, pagesCount: 1 },
+    };
+  }
+};
+
+const Clients: FC<ClientsProps> = ({ pageNum, clientsPerPage, pagesCount }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
