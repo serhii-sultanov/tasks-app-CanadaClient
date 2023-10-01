@@ -5,6 +5,7 @@ import { ROUTE } from '@/utils/routes';
 import Link from 'next/link';
 import { FC, useMemo } from 'react';
 import { ActivityPhoto } from './ActivityPhoto';
+import { LoadFileButton } from './LoadFileButton';
 
 type ActivityItemProps = {
   activity: TActivity;
@@ -23,10 +24,11 @@ export const ActivityItem: FC<ActivityItemProps> = ({ activity }) => {
     return convertDynamicDate(createdAt, updatedAt);
   }, [createdAt, updatedAt]);
 
-  const fullName = firstName || lastName ? `${firstName} ${lastName}` : email;
+  console.log(activity_files);
 
+  const fullName = firstName || lastName ? `${firstName} ${lastName}` : email;
   return (
-    <div className="bg-white last:mb-0 first:rounded-tl-md first:rounded-tr-md last:rounded-br-md last:rounded-bl-md border min-h-[100px] border-grayStroke-50 py-3 px-5 flex justify-start items-center">
+    <div className="bg-white last:mb-0 first:rounded-tl-md first:rounded-tr-md last:rounded-br-md last:rounded-bl-md border min-h-[100px] border-grayStroke-50 py-3 px-5 flex justify-start items-center max-sm:px-2.5">
       <div className="flex items-center">
         <ActivityPhoto
           fullName={
@@ -42,7 +44,7 @@ export const ActivityItem: FC<ActivityItemProps> = ({ activity }) => {
             </span>{' '}
             commented on{' '}
             <Link
-              href={`${ROUTE.USER_ACCOUNT}/${task_id._id}`}
+              href={`${ROUTE.USER_TASK_LIST}/${task_id._id}`}
               target="_blank"
               className="text-mainBLue max-sm:text-s14 hover:text-btnBlueHover"
             >
@@ -50,23 +52,27 @@ export const ActivityItem: FC<ActivityItemProps> = ({ activity }) => {
             </Link>
           </h4>
           {activity_files.length ? (
-            <h4 className="text-grayStroke-100 mb-1 max-sm:text-s14">
+            <h4 className="text-grayStroke-100 mb-2 max-sm:text-s14">
               With attached file(s):
             </h4>
           ) : null}
           {activity_files.length ? (
             <div className="flex flex-col items-start">
-              {activity_files.map((file, idx) => (
-                <button
-                  className="text-mainBLue text-xs break-words hover:text-btnBlueHover"
-                  key={file._id}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    downloadFile(file);
-                  }}
-                >
-                  {`${1 + idx}`}. {file.file_originalName}
-                </button>
+              {activity_files.map((file) => (
+                <LoadFileButton key={file._id} file={file} />
+                // <button
+                //   className="text-mainBLue text-xs break-words hover:text-btnBlueHover"
+                //   key={file._id}
+
+                //   style={{
+                //     whiteSpace: 'normal',
+                //     overflowWrap: 'break-word',
+                //   }}
+                // >
+                //   {file.file_originalName}
+                //   {'  '}-{' '}
+                //   <span className="text-grayStroke-100"></span>
+                // </button>
               ))}
             </div>
           ) : null}

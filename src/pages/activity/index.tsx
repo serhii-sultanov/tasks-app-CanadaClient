@@ -1,6 +1,7 @@
 import { ActivityItem } from '@/components/activity/ActivityItem';
 import { useActivityEndlessScroll } from '@/hooks/useActivityEndlessScroll';
 import type { ActivityResponse, TActivity } from '@/types/types';
+import { ROUTE } from '@/utils/routes';
 import axios from 'axios';
 import type { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
@@ -17,6 +18,16 @@ export const getServerSideProps: GetServerSideProps<ActivityProps> = async (
   ctx,
 ) => {
   const session = await getSession(ctx);
+
+  if (session?.user.role !== 'admin') {
+    return {
+      redirect: {
+        destination: ROUTE.USER_TASK_LIST,
+        permanent: false,
+      },
+    };
+  }
+
   let pageNum = 1;
   if (Number(ctx.query.page) >= 0) pageNum = Number(ctx.query.page);
 
@@ -55,7 +66,7 @@ const Activity: FC<ActivityProps> = ({ clientsActivity, totalActivity }) => {
 
   return (
     <section className="pb-10 max-w-7xl mx-auto">
-      <div className="max-w-container mx-auto w-full px-12 pt-5">
+      <div className="max-w-container mx-auto w-full px-12 pt-5 max-md:px-0">
         <h1 className="text-md26 font-medium text-black mb-8">Activity</h1>
         <InfiniteScroll
           dataLength={activity.length}
