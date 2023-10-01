@@ -7,7 +7,7 @@ import { FC, useState } from 'react';
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
   const redirectDestination =
-    session?.user.role === 'admin' ? ROUTE.ACTIVITY : ROUTE.USER_ACCOUNT;
+    session?.user.role === 'admin' ? ROUTE.ACTIVITY : ROUTE.USER_TASK_LIST;
 
   if (session) {
     return {

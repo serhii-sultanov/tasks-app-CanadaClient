@@ -7,12 +7,7 @@ import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { Button } from './Button';
-
-type TError = {
-  error: string;
-  message: string;
-  statusCode: number;
-};
+import { TError } from '@/types/types';
 
 type AuthProps = {
   isLogin: boolean;
