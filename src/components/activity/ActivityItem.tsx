@@ -57,19 +57,6 @@ export const ActivityItem: FC<ActivityItemProps> = ({ activity }) => {
             <div className="flex flex-col items-start">
               {activity_files.map((file) => (
                 <LoadFileButton key={file._id} file={file} />
-                // <button
-                //   className="text-mainBLue text-xs break-words hover:text-btnBlueHover"
-                //   key={file._id}
-
-                //   style={{
-                //     whiteSpace: 'normal',
-                //     overflowWrap: 'break-word',
-                //   }}
-                // >
-                //   {file.file_originalName}
-                //   {'  '}-{' '}
-                //   <span className="text-grayStroke-100"></span>
-                // </button>
               ))}
             </div>
           ) : null}
