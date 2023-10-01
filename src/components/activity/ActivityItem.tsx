@@ -1,6 +1,5 @@
 import type { TActivity } from '@/types/types';
 import { convertDynamicDate } from '@/utils/convertDate';
-import { downloadFile } from '@/utils/downloadFile';
 import { ROUTE } from '@/utils/routes';
 import Link from 'next/link';
 import { FC, useMemo } from 'react';
@@ -23,8 +22,6 @@ export const ActivityItem: FC<ActivityItemProps> = ({ activity }) => {
   const { formattedDynamicCreatedAt } = useMemo(() => {
     return convertDynamicDate(createdAt, updatedAt);
   }, [createdAt, updatedAt]);
-
-  console.log(activity_files);
 
   const fullName = firstName || lastName ? `${firstName} ${lastName}` : email;
   return (

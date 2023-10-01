@@ -1,6 +1,6 @@
-import { TFile } from '@/types/types';
+import type { TFile } from '@/types/types';
 import { downloadFile } from '@/utils/downloadFile';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 type LoadFileButtonProps = {
   file: TFile;

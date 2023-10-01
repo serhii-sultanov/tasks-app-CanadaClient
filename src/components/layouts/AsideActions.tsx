@@ -23,13 +23,6 @@ export const AsideActions: FC = () => {
           >
             Add New Task
           </Link>
-          <Link
-            href={ROUTE.ADD_NEW_FILE}
-            onClick={() => setDropDown(false)}
-            className="block w-full cursor-pointer hover:bg-grayStroke-30 py-1 px-3.5 whitespace-nowrap bg-transparent font-medium rounded-md text-s14 text-mainBLue"
-          >
-            Add New File
-          </Link>
         </div>
       ) : null}
     </div>
