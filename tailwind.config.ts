@@ -15,6 +15,7 @@ const config: Config = {
         container: '960px',
         loginContainer: '500px',
         mainContainer: 'calc(100vw - 264px)',
+        headerContainer: '992px',
       },
       minWidth: {
         xsMinWidth: '32px',
