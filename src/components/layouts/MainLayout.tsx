@@ -34,7 +34,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           pathname === ROUTE.HOME
             ? 'max-w-loginContainer mx-auto px-3.5'
             : null,
-          data?.user.role === 'admin' ? 'max-w-container mx-auto px-3.5' : null,
+          'max-w-container mx-auto px-3.5',
         )}
       >
         {children}
