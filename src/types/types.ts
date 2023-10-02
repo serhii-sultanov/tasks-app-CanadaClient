@@ -87,3 +87,10 @@ export type ActivityResponse = {
     totalActivity: number;
   };
 };
+
+export type TClientsResponse = {
+  data: {
+    clientsPerPage: TUser[];
+    totalClients: number;
+  };
+};
