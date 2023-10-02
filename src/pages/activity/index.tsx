@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<ActivityProps> = async (
   if (session?.user.role !== 'admin') {
     return {
       redirect: {
-        destination: ROUTE.USER_TASK_LIST,
+        destination: `${ROUTE.USER_TASK_LIST}/${session?.user.id}`,
         permanent: false,
       },
     };
