@@ -15,12 +15,17 @@ const config: Config = {
         container: '960px',
         loginContainer: '500px',
         mainContainer: 'calc(100vw - 264px)',
+        headerContainer: '992px',
       },
       minWidth: {
         xsMinWidth: '32px',
+        profileDesktop: '96px',
+        profileMobile: '56px',
       },
       minHeight: {
         xsMinHeght: '32px',
+        profileDesktop: '96px',
+        profileMobile: '56px',
       },
       fontSize: {
         xs10: ['10px', '12px'],

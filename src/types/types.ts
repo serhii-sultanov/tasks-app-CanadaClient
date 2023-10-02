@@ -12,7 +12,7 @@ export type TFile = TDate & {
 };
 
 export type TComment = TDate & {
-  id: string;
+  _id: string;
   user_id: TUser;
   activity_id: string;
   comment: string;
@@ -93,4 +93,20 @@ export type TClientsResponse = {
     clientsPerPage: TUser[];
     totalClients: number;
   };
+};
+
+export type TOpenTaskResponse = {
+  data: {
+    clientsPerPage: TUser[];
+    totalClients: number;
+  };
+};
+
+export type TUserProfile = TDate & {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  businessName: string;
+  role: string;
+  email: string;
 };
