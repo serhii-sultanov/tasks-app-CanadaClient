@@ -88,6 +88,13 @@ export type ActivityResponse = {
   };
 };
 
+export type TOpenTaskResponse = {
+  data: {
+    clientsPerPage: TUser[];
+    totalClients: number;
+  };
+};
+
 export type TUserProfile = TDate & {
   _id: string;
   firstName: string;

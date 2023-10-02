@@ -68,18 +68,22 @@ const Activity: FC<ActivityProps> = ({ clientsActivity, totalActivity }) => {
     <section className="pb-10 max-w-7xl mx-auto">
       <div className="max-w-container mx-auto w-full px-12 pt-5 max-md:px-0">
         <h1 className="text-md26 font-medium text-black mb-8">Activity</h1>
-        <InfiniteScroll
-          dataLength={activity.length}
-          next={getMoreActivity}
-          hasMore={hasMore}
-          loader={<h4>Loading...</h4>}
-        >
-          {activity.length
-            ? activity.map((activity) => (
-                <ActivityItem key={activity._id} activity={activity} />
-              ))
-            : null}
-        </InfiniteScroll>
+        {activity?.length ? (
+          <InfiniteScroll
+            dataLength={activity.length}
+            next={getMoreActivity}
+            hasMore={hasMore}
+            loader={<h4>Loading...</h4>}
+          >
+            {activity.map((activity) => (
+              <ActivityItem key={activity._id} activity={activity} />
+            ))}
+          </InfiniteScroll>
+        ) : (
+          <div className="bg-white p-3 border-2 text-grayStroke-100 rounded-md">
+            Activities empty
+          </div>
+        )}
       </div>
     </section>
   );
