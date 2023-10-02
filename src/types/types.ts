@@ -88,6 +88,13 @@ export type ActivityResponse = {
   };
 };
 
+export type TClientsResponse = {
+  data: {
+    clientsPerPage: TUser[];
+    totalClients: number;
+  };
+};
+
 export type TOpenTaskResponse = {
   data: {
     clientsPerPage: TUser[];

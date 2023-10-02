@@ -16,14 +16,6 @@ export const ContentBox: FC<ContentBoxProps> = ({ title, children }) => {
     <div className="w-full bg-grayBg rounded-lg p-4 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <h2 className="text-black font-medium">{title}</h2>
-        <DotsButton>
-          <ActionButton type="edit" onClick={onClick}>
-            Edit
-          </ActionButton>
-          <ActionButton type="delete" onClick={onClick}>
-            Delete
-          </ActionButton>
-        </DotsButton>
       </div>
       {children}
     </div>

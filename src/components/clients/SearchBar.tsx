@@ -41,7 +41,7 @@ export const SearchBar: FC<SearchBarProps> = ({
           : null,
       )}
       type="text"
-      placeholder="Пошук"
+      placeholder="Search"
       value={searchValue}
       onChange={(e) => setSearchValue(e.target.value)}
       onFocus={handleToggleSearchValues}
