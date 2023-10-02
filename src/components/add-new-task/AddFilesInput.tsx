@@ -1,19 +1,12 @@
+import { TAddNewTask } from '@/types/types';
 import clsx from 'clsx';
 import { FC } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';
 
-type AddInfo = {
-  user: string;
-  taskTitle: string;
-  taskList: string;
-  taskDescription: string;
-  taskFiles: File[];
-};
-
 type AddFileInput = {
   register: UseFormRegisterReturn<string>;
-  setValue: UseFormSetValue<AddInfo>;
+  setValue: UseFormSetValue<TAddNewTask>;
   taskFiles: File[];
   disabled: boolean;
 };
@@ -25,7 +18,11 @@ export const AddFilesInput: FC<AddFileInput> = ({
   disabled,
 }) => {
   const onDrop = (acceptedFiles: File[]) => {
-    setValue('taskFiles', [...taskFiles, ...acceptedFiles]);
+    if (taskFiles?.length) {
+      setValue('task_files', [...taskFiles, ...acceptedFiles]);
+    } else {
+      setValue('task_files', acceptedFiles);
+    }
   };
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop, disabled });

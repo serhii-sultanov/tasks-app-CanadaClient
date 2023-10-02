@@ -1,178 +1,137 @@
-import { FC } from 'react';
+import type { TAddNewTask, TFormDropDown, TUser } from '@/types/types';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { AddClientInput } from '../ui/AddClientInput';
-import { AddFilesInput } from '../ui/AddFilesInput';
-import { AddTaskListInput } from '../ui/AddTaskListInput';
-import { AddTaskTitleInput } from '../ui/AddTaskTitleInput';
+import { toast } from 'react-toastify';
 import { Button } from '../ui/Button';
-import { DescriptionTextArea } from '../ui/DescriptionTextArea';
-import { FilesList } from '../ui/FilesList';
+import { AddClientInput } from './AddClientInput';
+import { AddFilesInput } from './AddFilesInput';
+import { AddTaskListInput } from './AddTaskListInput';
+import { AddTaskTitleInput } from './AddTaskTitleInput';
+import { DescriptionTextArea } from './DescriptionTextArea';
+import { FilesList } from './FilesList';
 
-type AddInfo = {
-  user: string;
-  taskTitle: string;
-  taskList: string;
-  taskDescription: string;
-  taskFiles: File[];
+type AddTaskFormProps = {
+  users: TUser[];
 };
 
-const data = [
-  {
-    taskDescription: 'ghfghfghfhgfhghgfhgfhfgh',
-    taskFiles: [
-      {
-        lastModified: 1639341501148,
-        lastModifiedDate: 'Sun Dec 12 2021 22:38:21 GMT+0200',
-        name: 'cat.jpg',
-        size: 5605,
-        type: 'image/jpeg',
-        webkitRelativePath: '',
-      },
-    ],
-    taskList: ['Housework', 'WatchTV'],
-    taskTitle: 'Clean room',
-    user: 'Alice',
-  },
-  {
-    taskDescription: 'ghfghfghfhgfhghgfhgfhfgh',
-    taskFiles: [
-      {
-        lastModified: 1639341501148,
-        lastModifiedDate: 'Sun Dec 12 2021 22:38:21 GMT+0200',
-        name: 'cat.jpg',
-        size: 5605,
-        type: 'image/jpeg',
-        webkitRelativePath: '',
-      },
-    ],
-    taskList: ['Housework', 'WatchTV'],
-    taskTitle: 'Clean room',
-    user: 'Bob',
-  },
-  {
-    taskDescription: 'ghfghfghfhgfhghgfhgfhfgh',
-    taskFiles: [
-      {
-        lastModified: 1639341501148,
-        lastModifiedDate: 'Sun Dec 12 2021 22:38:21 GMT+0200',
-        name: 'cat.jpg',
-        size: 5605,
-        type: 'image/jpeg',
-        webkitRelativePath: '',
-      },
-    ],
-    taskList: ['Housework', 'WatchTV'],
-    taskTitle: 'Clean room',
-    user: 'Anna',
-  },
-  {
-    taskDescription: 'ghfghfghfhgfhghgfhgfhfgh',
-    taskFiles: [
-      {
-        lastModified: 1639341501148,
-        lastModifiedDate: 'Sun Dec 12 2021 22:38:21 GMT+0200',
-        name: 'cat.jpg',
-        size: 5605,
-        type: 'image/jpeg',
-        webkitRelativePath: '',
-      },
-    ],
-    taskList: ['Housework', 'WatchTV'],
-    taskTitle: 'Clean room',
-    user: 'John',
-  },
-  {
-    taskDescription: 'ghfghfghfhgfhghgfhgfhfgh',
-    taskFiles: [
-      {
-        lastModified: 1639341501148,
-        lastModifiedDate: 'Sun Dec 12 2021 22:38:21 GMT+0200',
-        name: 'cat.jpg',
-        size: 5605,
-        type: 'image/jpeg',
-        webkitRelativePath: '',
-      },
-    ],
-    taskList: ['Housework', 'WatchTV'],
-    taskTitle: 'Clean room',
-    user: 'Ira',
-  },
-];
-
-// export class CreateTaskDto {
-//   @ApiProperty()
-//   @IsString()
-//   task_title: string;
-
-//   @ApiProperty()
-//   user_id: string;
-
-//   @ApiProperty()
-//   task_description: string;
-
-//   @ApiProperty()
-//   task_list_name: string;
-// }
-
-export const AddTaskForm: FC = () => {
+export const AddTaskForm: FC<AddTaskFormProps> = ({ users }) => {
   const {
     register,
     handleSubmit,
     setValue,
     reset,
+    resetField,
     watch,
     formState: { errors },
-  } = useForm<AddInfo>();
-  const { user, taskList, taskFiles, taskTitle } = watch();
+  } = useForm<TAddNewTask>();
+  const { user_id, task_title, task_list_name, task_files } = watch();
 
-  const formSubmit: SubmitHandler<AddInfo> = async (data) => {
-    console.log(data);
-    reset();
+  const [isDropDownOpen, setDropDownOpen] = useState<TFormDropDown>('');
+
+  const { data: session } = useSession();
+  const { replace, asPath } = useRouter();
+
+  const findedUser = users.find((item) => item._id === user_id);
+
+  const findedTaskList = findedUser?.taskLists.find(
+    (list) => list.task_list_name === task_list_name,
+  );
+
+  const formSubmit: SubmitHandler<TAddNewTask> = async (data) => {
+    const {
+      user_id,
+      task_title,
+      task_list_name,
+      task_description,
+      task_files,
+    } = data;
+
+    const formData = new FormData();
+    formData.append('user_id', user_id);
+    formData.append('task_title', task_title);
+    formData.append('task_list_name', task_list_name);
+    formData.append('task_description', task_description);
+    task_files?.forEach((file) => {
+      formData.append('files', file);
+    });
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_DATABASE_URL}/admin/create-task`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${session?.user.token}`,
+          },
+        },
+      );
+
+      if (res?.data) {
+        toast.success(res.data.message);
+        reset();
+        replace(asPath);
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(formSubmit)}>
-      <div className="flex w-full flex-col justify-center gap-6 px-9">
+      <div className="flex w-full flex-col text-sm16 justify-center gap-4 px-9 py-5">
         <AddClientInput
-          register={register('user', { required: 'Select a client!' })}
-          users={data}
+          register={register('user_name', { required: 'Select a client!' })}
+          users={users}
           setValue={setValue}
-          error={errors.user?.message}
+          error={errors.user_id?.message}
+          reset={resetField}
+          isDropDownOpen={isDropDownOpen}
+          setDropDownOpen={setDropDownOpen}
         />
         <AddTaskListInput
-          register={register('taskList', { required: 'Select task list!' })}
-          user={data.find((item) => item.user === user)}
+          register={register('task_list_name', {
+            required: 'Select task list!',
+          })}
+          taskLists={findedUser?.taskLists}
           setValue={setValue}
-          disabled={!user}
-          error={errors.taskList?.message}
+          disabled={!user_id}
+          error={errors.task_list_name?.message}
+          reset={resetField}
+          isDropDownOpen={isDropDownOpen}
+          setDropDownOpen={setDropDownOpen}
         />
         <AddTaskTitleInput
-          register={register('taskTitle', { required: 'Select task!' })}
-          user={data.find((item) => item.user === user)}
+          register={register('task_title', { required: 'Select task!' })}
+          taskList={findedTaskList?.task_list}
           setValue={setValue}
-          disabled={!taskList?.length}
-          error={errors.taskTitle?.message}
+          disabled={!task_list_name}
+          error={errors.task_title?.message}
+          reset={resetField}
+          isDropDownOpen={isDropDownOpen}
+          setDropDownOpen={setDropDownOpen}
         />
         <DescriptionTextArea
-          register={register('taskDescription')}
-          disabled={!taskTitle}
+          register={register('task_description', {
+            required: 'Add description!',
+          })}
+          error={errors.task_title?.message}
+          disabled={!task_title}
         />
         <AddFilesInput
-          register={register('taskFiles')}
+          register={register('task_files')}
           setValue={setValue}
-          taskFiles={taskFiles}
-          disabled={!user}
+          taskFiles={task_files}
+          disabled={!user_id}
         />
-        {taskFiles?.length ? (
-          <FilesList
-            filesList={taskFiles}
-            userName={user}
-            setValue={setValue}
-          />
+        {task_files?.length ? (
+          <FilesList filesList={task_files} setValue={setValue} />
         ) : null}
         <Button
           type="submit"
-          classNameModificator="bg-mainBlue text-sm14 hover:bg-blueHover transition-all duration-200"
+          classNameModificator="bg-mainBlue text-sm14 hover:bg-blueHover transition-all duration-200 text-white"
         >
           Submit
         </Button>
