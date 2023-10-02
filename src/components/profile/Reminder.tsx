@@ -50,6 +50,7 @@ export const Reminder: FC<TReminderProps> = ({ reminder }) => {
           ) : null}
         </label>
         <Button
+          disabled={isSubmitting}
           classNameModificator="bg-btnBlue text-white hover:bg-btnBlueHover transition-all duration-200"
           type="submit"
         >

@@ -49,6 +49,7 @@ export const UpdatePassword: FC = () => {
           </button>
         </label>
         <Button
+          disabled={isSubmitting}
           classNameModificator="bg-btnBlue text-white hover:bg-btnBlueHover transition-all duration-200"
           type="submit"
         >
