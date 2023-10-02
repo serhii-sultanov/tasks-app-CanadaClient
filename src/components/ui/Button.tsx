@@ -19,7 +19,7 @@ export const Button: FC<ButtonProps> = ({
       onClick={onClick}
       type={type}
       className={clsx(
-        'w-full font-semibold text-sm16 rounded-[0.25rem] border border-transparent py-1.5 px-4',
+        'flex justify-center items-center w-full font-semibold text-sm16 rounded-[0.25rem] border border-transparent py-1.5 px-4',
         classNameModificator,
       )}
     >

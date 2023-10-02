@@ -19,9 +19,13 @@ const config: Config = {
       },
       minWidth: {
         xsMinWidth: '32px',
+        profileDesktop: '96px',
+        profileMobile: '56px',
       },
       minHeight: {
         xsMinHeght: '32px',
+        profileDesktop: '96px',
+        profileMobile: '56px',
       },
       fontSize: {
         xs10: ['10px', '12px'],
