@@ -65,17 +65,15 @@ const Clients: FC<ClientsProps> = ({ clientsPerPage, totalClients }) => {
   }, [clients]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const openModal = () => {
     setIsModalOpen(true);
   };
-
   const closeModal = () => {
     setIsModalOpen(false);
   };
   return (
-    <section className={'pt-5 pb-10'}>
-      <div className="max-w-container mx-auto w-full px-12">
+    <section className={'pt-5 pb-10 max-w-7xl mx-auto'}>
+      <div className="max-w-container mx-auto w-full px-12 pt-5 max-md:px-0">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center">
             <h1 className="text-md26 font-medium text-black mr-3">Clients</h1>
@@ -91,20 +89,24 @@ const Clients: FC<ClientsProps> = ({ clientsPerPage, totalClients }) => {
             <p className="text-s14 text-grayStroke-70">Filter tasks</p>
           </div>
         </div>
-        <ContentBox title="Evaluation">
-          <InfiniteScroll
-            dataLength={clients.length}
-            next={getMoreClients}
-            hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
-          >
-            {clients.length
-              ? clients.map((client) => (
-                  <ContentItem key={client._id} client={client} />
-                ))
-              : null}
-          </InfiniteScroll>
-        </ContentBox>
+        {clients.length ? (
+          <ContentBox title="Evaluation">
+            <InfiniteScroll
+              dataLength={clients.length}
+              next={getMoreClients}
+              hasMore={hasMore}
+              loader={<h4>Loading...</h4>}
+            >
+              {clients.map((client) => (
+                <ContentItem key={client._id} client={client} />
+              ))}
+            </InfiniteScroll>
+          </ContentBox>
+        ) : (
+          <div className="bg-white p-3 border-2 text-grayStroke-100 rounded-md">
+            Clients list is empty
+          </div>
+        )}
       </div>
     </section>
   );

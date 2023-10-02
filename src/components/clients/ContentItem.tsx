@@ -1,15 +1,10 @@
+import type { TTaskList, TUser } from '@/types/types';
+import { ROUTE } from '@/utils/routes';
+import Link from 'next/link';
 import { FC } from 'react';
-import { DotsButton } from '../ui/DotsButton';
-import { Button } from '../ui/Button';
-import { ActionButton } from '../ui/ActionButton';
-import { TTaskList, TUser } from '@/types/types';
 
 type ContentItemProps = {
   client: TUser;
-};
-
-const onClick = () => {
-  ('');
 };
 
 export const ContentItem: FC<ContentItemProps> = ({ client }) => {
@@ -26,23 +21,22 @@ export const ContentItem: FC<ContentItemProps> = ({ client }) => {
     { allTasks: 0, doneTasks: 0 },
   );
   return (
-    <div className="bg-white p-5 rounded-lg mb-4">
-      <div className="flex justify-between items-center">
-        <div>
+    <div className="bg-white p-5 max-[530px]:p-3.5 rounded-lg mb-4">
+      <div className="flex justify-between items-center gap-4 max-[530px]:flex-col max-[530px]:justify-center max-[530px]:text-center">
+        <div className="flex-1 break-all">
           <p className="text-black font-medium">{fullName}</p>
-          <p className="text-sm text-grayStroke-70 font-medium">
-            {businessName}
-          </p>
-          <p className=" text-sm text-grayMedium">{email}</p>
+          <p className="text-s14 text-mainBLue font-medium">{businessName}</p>
+          <p className=" text-s14 text-grayMedium">{email}</p>
         </div>
-        <div className="flex items-center">
-          <Button
+        <div className="flex items-center justify-between gap-4 min-w-[170px] max-[530px]:flex-col-reverse">
+          <Link
+            href={`${ROUTE.USER_TASK_LIST}/${client._id}`}
             type="button"
-            classNameModificator="bg-grayStrong hover:opacity-80"
+            className="bg-grayStrong hover:opacity-80 max-w-[100px] flex justify-center items-center w-full font-semibold text-sm16 rounded-[0.25rem] border border-transparent py-1.5 px-4"
           >
             Access
-          </Button>
-          <div className="min-w-[70px] flex items-center ml-6">
+          </Link>
+          <div className="flex items-center">
             <img
               src="/icons/list-check-icon.svg"
               alt="tasks-list"

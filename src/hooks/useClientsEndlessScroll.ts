@@ -14,13 +14,14 @@ export const useClientsEndlessScroll = (
     try {
       const session = await getSession();
       const response: TClientsResponse = await axios.get(
-        `${process.env.NEXT_PUBLIC_DATABASE_URL}/admin/clients?page=${newPageNum}&pageSize=10`,
+        `${process.env.NEXT_PUBLIC_DATABASE_URL}/admin/users?page=${newPageNum}&pageSize=10`,
         {
           headers: {
             Authorization: `Bearer ${session?.user.token}`,
           },
         },
       );
+
       setClients((prev) => [...prev, ...response.data.clientsPerPage]);
       setNewPageNum((prev) => prev + 1);
     } catch (err) {
