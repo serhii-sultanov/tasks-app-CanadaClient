@@ -1,53 +1,34 @@
 import { FC } from 'react';
-import { DotsButton } from './DotsButton';
-import { ActionButton } from './ActionButton';
 import { UseFormSetValue } from 'react-hook-form';
-import { IconButton } from './IconButton';
-
-type AddInfo = {
-  user: string;
-  taskTitle: string;
-  taskList: string;
-  taskDescription: string;
-  taskFiles: File[];
-};
+import { IconButton } from '../ui/IconButton';
 
 type FilesListProps = {
   filesList: File[];
-  userName: string;
-  setValue: UseFormSetValue<AddInfo>;
+  setValue: UseFormSetValue<any>;
 };
 
-export const FilesList: FC<FilesListProps> = ({
-  userName,
-  filesList,
-  setValue,
-}) => {
+export const FilesList: FC<FilesListProps> = ({ filesList, setValue }) => {
   const handleDelete = (name: string) => {
     const updatedList = filesList.filter((file) => file.name !== name);
-    setValue('taskFiles', updatedList);
+    setValue('files', updatedList);
   };
 
   return (
-    <ul className="border-2 rounded-md px-5 py-3 w-full mx-auto flex flex-col gap-4">
+    <ul className="min-h-[60px] max-h-[105px] overflow-auto border-2 rounded-md px-5 py-3 w-full mx-auto flex flex-col gap-4">
       {filesList.map((taskFile, i) => (
         <li key={i} className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="flex">
-              <div className="flex justify-center items-center w-8 min-w-xsMinWidth h-8 rounded-full bg-mainBLue z-10">
-                <img
-                  className="w-4 h-4"
-                  src="/icons/file-icon.svg"
-                  alt="file"
-                />
-              </div>
-              <div className="flex justify-center items-center w-8 min-w-xsMinWidth h-8 rounded-full bg-red-600 -translate-x-3 z-0">
-                <span className=" text-white text-center text-s14">
-                  {userName.charAt(0).toUpperCase()}
-                </span>
-              </div>
+            <div className="flex justify-center items-center w-8 min-w-xsMinWidth h-8 rounded-full bg-mainBLue">
+              <img className="w-4 h-4" src="/icons/file-icon.svg" alt="file" />
             </div>
-            <p className="text-xs12 text-grayStroke-70">{taskFile.name}</p>
+            <div>
+              <h4 className="text-xs12 text-mainBLue break-all">
+                {taskFile.name}
+              </h4>
+              <p className="text-grayStroke-100 text-xs12">{`${(
+                taskFile.size / 1024
+              ).toFixed(0)} kb`}</p>
+            </div>
           </div>
 
           <IconButton

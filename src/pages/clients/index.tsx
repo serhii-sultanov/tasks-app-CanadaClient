@@ -90,7 +90,7 @@ const Clients: FC<ClientsProps> = ({ clientsPerPage, totalClients }) => {
           </div>
         </div>
         {clients.length ? (
-          <ContentBox title="Evaluation">
+          <ContentBox>
             <InfiniteScroll
               dataLength={clients.length}
               next={getMoreClients}

@@ -1,7 +1,6 @@
 import { MainLayout } from '@/components/layouts/MainLayout';
 import '@/styles/globals.css';
 import { checkAuth } from '@/utils/checkAuth';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import { FC, useEffect } from 'react';
