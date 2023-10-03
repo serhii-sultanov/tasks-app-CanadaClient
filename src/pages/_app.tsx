@@ -6,6 +6,7 @@ import { MainLayout } from '@/components/layouts/MainLayout';
 import { SessionProvider } from 'next-auth/react';
 import 'react-toastify/dist/ReactToastify.css';
 import { checkAuth } from '@/utils/checkAuth';
+import { AddTaskContextProvider } from '@/context/AddTaskContextProvider';
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
@@ -14,14 +15,16 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
 
   return (
     <SessionProvider session={pageProps.session}>
-      <MainLayout>
-        <Component {...pageProps} />
-        <ToastContainer
-          className={'z-50'}
-          position="bottom-left"
-          autoClose={2000}
-        />
-      </MainLayout>
+      <AddTaskContextProvider>
+        <MainLayout>
+          <Component {...pageProps} />
+          <ToastContainer
+            className={'z-50'}
+            position="bottom-left"
+            autoClose={2000}
+          />
+        </MainLayout>
+      </AddTaskContextProvider>
     </SessionProvider>
   );
 };

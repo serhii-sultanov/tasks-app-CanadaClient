@@ -1,32 +1,22 @@
-import type { TAddNewTask, TFormDropDown, TUser } from '@/types/types';
-import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
-import {
-  UseFormRegisterReturn,
-  UseFormResetField,
-  UseFormSetValue,
-} from 'react-hook-form';
-import { Virtuoso } from 'react-virtuoso';
 import { IconButton } from '@/components/ui/IconButton';
+import { useAddTaskContext } from '@/context/AddTaskContextProvider';
+import type { TUser } from '@/types/types';
+import { type ChangeEvent, type FC, useState } from 'react';
+import { Virtuoso } from 'react-virtuoso';
 
 type AddClientInputProps = {
-  register: UseFormRegisterReturn<string>;
-  setValue: UseFormSetValue<TAddNewTask>;
   users: TUser[];
-  error?: string;
-  reset: UseFormResetField<TAddNewTask>;
-  isDropDownOpen: TFormDropDown;
-  setDropDownOpen: Dispatch<SetStateAction<TFormDropDown>>;
 };
 
-export const AddClientInput: FC<AddClientInputProps> = ({
-  register,
-  setValue,
-  users,
-  reset,
-  error,
-  isDropDownOpen,
-  setDropDownOpen,
-}) => {
+export const AddClientInput: FC<AddClientInputProps> = ({ users }) => {
+  const {
+    register,
+    resetField,
+    isDropDownOpen,
+    setDropDownOpen,
+    setValue,
+    errors,
+  } = useAddTaskContext();
   const [virtuosoData, setVirtuosoData] = useState(users);
 
   const handleSelectClient = (user: TUser) => {
@@ -35,10 +25,10 @@ export const AddClientInput: FC<AddClientInputProps> = ({
         ? `${user.firstName} ${user.lastName}`
         : user.email;
 
-    reset('task_list_name');
-    reset('task_title');
-    reset('task_description');
-    reset('task_files');
+    resetField('task_list_name');
+    resetField('task_title');
+    resetField('task_description');
+    resetField('task_files');
     setValue('user_id', user._id);
     setValue('user_name', userName);
     setDropDownOpen('');
@@ -47,8 +37,10 @@ export const AddClientInput: FC<AddClientInputProps> = ({
   const handleSearchUser = (e: ChangeEvent<HTMLInputElement>) => {
     const search = users.filter(
       (user) =>
-        `${user.firstName} ${user.lastName}`.includes(e.target.value) ||
-        user.email.includes(e.target.value),
+        `${user.firstName} ${user.lastName}`
+          .toLowerCase()
+          .includes(e.target.value.toLowerCase()) ||
+        user.email.toLowerCase().includes(e.target.value.toLowerCase()),
     );
 
     setValue('user_name', e.target.value);
@@ -56,7 +48,18 @@ export const AddClientInput: FC<AddClientInputProps> = ({
     if (e.target.value.length) {
       setDropDownOpen('users');
     } else {
+      resetField('task_list_name');
+      resetField('task_title');
+      resetField('task_description');
+      resetField('task_files');
       setDropDownOpen('');
+    }
+
+    if (!search.length) {
+      resetField('task_list_name');
+      resetField('task_title');
+      resetField('task_description');
+      resetField('task_files');
     }
 
     setVirtuosoData(search);
@@ -66,15 +69,17 @@ export const AddClientInput: FC<AddClientInputProps> = ({
     <div className="flex flex-col gap-1 relative">
       <p className="text-grayStroke-70">
         Client
-        {error ? (
-          <span className=" text-mainRed text-xs10">* {error}</span>
+        {errors?.user_name?.message ? (
+          <span className=" text-mainRed text-xs10">
+            * {errors.user_name.message}
+          </span>
         ) : null}
       </p>
       <input
         className="w-full py-2 px-5 text-sm16 text-black outline-mainBLue rounded-md border-2 border-mainBLue border-opacity-40"
         type="text"
         autoComplete="off"
-        {...register}
+        {...register('user_name', { required: 'Select a client!' })}
         onChange={handleSearchUser}
       />
       <IconButton

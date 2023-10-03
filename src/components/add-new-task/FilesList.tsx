@@ -15,7 +15,7 @@ export const FilesList: FC<FilesListProps> = ({ filesList, setValue }) => {
   };
 
   return (
-    <ul className="border-2 rounded-md px-5 py-3 w-full mx-auto flex flex-col gap-4">
+    <ul className="border-2 rounded-md px-5 py-3 w-full mx-auto flex flex-col gap-4 max-h-filesList overflow-auto">
       {filesList.map((taskFile, i) => (
         <li key={i} className="flex justify-between items-center">
           <div className="flex items-center gap-3">

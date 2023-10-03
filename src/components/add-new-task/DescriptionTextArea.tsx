@@ -1,29 +1,26 @@
+import { useAddTaskContext } from '@/context/AddTaskContextProvider';
 import { FC } from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
 
-type DescriptionTextAreaProps = {
-  register: UseFormRegisterReturn<string>;
-  disabled: boolean;
-  error?: string;
-};
+export const DescriptionTextArea: FC = ({}) => {
+  const { register, watch, errors } = useAddTaskContext();
+  const { task_title } = watch();
 
-export const DescriptionTextArea: FC<DescriptionTextAreaProps> = ({
-  error,
-  register,
-  disabled,
-}) => {
   return (
     <div className="flex flex-col gap-1 relative">
       <p className="flex gap-2 items-center justify-between text-grayStroke-70">
         Description{' '}
-        {error ? (
-          <span className="text-mainRed text-xs10">* {error}</span>
+        {errors?.task_description?.message ? (
+          <span className="text-mainRed text-xs10">
+            * {errors.task_description.message}
+          </span>
         ) : null}
       </p>
       <textarea
-        disabled={disabled}
+        disabled={!task_title}
         className="w-full py-2 px-5 text-sm16 text-black outline-mainBLue rounded-md border-2 border-mainBLue border-opacity-40 disabled:border-grayStroke-60"
-        {...register}
+        {...register('task_description', {
+          required: 'Add description!',
+        })}
       />
     </div>
   );

@@ -16,6 +16,9 @@ const config: Config = {
         loginContainer: '500px',
         mainContainer: 'calc(100vw - 264px)',
       },
+      maxHeight: {
+        filesList: '200px',
+      },
       minWidth: {
         xsMinWidth: '32px',
       },
