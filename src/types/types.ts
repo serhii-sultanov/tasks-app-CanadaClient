@@ -57,6 +57,7 @@ export type TUser = TDate & {
   lastName: string;
   businessName: string;
   taskLists: TTaskList[];
+  clientBackground: string;
   email: string;
   role: string;
   invitation_accepted: boolean;
@@ -109,4 +110,5 @@ export type TUserProfile = TDate & {
   businessName: string;
   role: string;
   email: string;
+  clientBackground: string;
 };

@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { GetServerSideProps } from 'next/types';
 import { FC } from 'react';
 import { getSession } from 'next-auth/react';
-import { TUser } from '@/types/types';
+import type { TUser } from '@/types/types';
 
 type TClientResponse = {
   data: TUser;
