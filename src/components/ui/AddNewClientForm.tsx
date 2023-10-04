@@ -1,8 +1,8 @@
-import { TAddNewClient, TError } from '@/types/types';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { TAddNewClient } from '@/types/types';
+import axios from 'axios';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { Button } from './Button';
@@ -15,7 +15,6 @@ export const AddNewClientForm: FC<{ closeModal: () => void }> = ({
     handleSubmit,
     reset,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<TAddNewClient>();
 
