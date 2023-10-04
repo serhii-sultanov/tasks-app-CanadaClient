@@ -110,3 +110,9 @@ export type TUserProfile = TDate & {
   role: string;
   email: string;
 };
+
+export type TAddNewClient = {
+  email: string;
+  password: string;
+  role: string;
+};

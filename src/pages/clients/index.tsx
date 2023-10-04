@@ -1,6 +1,7 @@
 import { ContentBox } from '@/components/clients/ContentBox';
 import { ContentItem } from '@/components/clients/ContentItem';
 import { SearchBar } from '@/components/clients/SearchBar';
+import { AddNewClientForm } from '@/components/ui/AddNewClientForm';
 import { useClientsEndlessScroll } from '@/hooks/useClientsEndlessScroll';
 import { TClientsResponse, TUser } from '@/types/types';
 import { ROUTE } from '@/utils/routes';
@@ -107,6 +108,14 @@ const Clients: FC<ClientsProps> = ({ clientsPerPage, totalClients }) => {
           </div>
         )}
       </div>
+      {isModalOpen ? (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-black opacity-40"></div>
+          <div className="relative z-10 bg-white rounded-lg w-full md500:w-[370px]">
+            <AddNewClientForm closeModal={closeModal} />
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 };
