@@ -1,180 +1,44 @@
-import { FC } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { AddClientInput } from '../ui/AddClientInput';
-import { AddFilesInput } from '../ui/AddFilesInput';
-import { AddTaskListInput } from '../ui/AddTaskListInput';
-import { AddTaskTitleInput } from '../ui/AddTaskTitleInput';
+import { useAddTaskContext } from '@/context/AddTaskContextProvider';
+import type { TUser } from '@/types/types';
+import { type FC } from 'react';
 import { Button } from '../ui/Button';
-import { DescriptionTextArea } from '../ui/DescriptionTextArea';
-import { FilesList } from '../ui/FilesList';
+import { AddClientInput } from './AddClientInput';
+import { AddFilesInput } from './AddFilesInput';
+import { AddTaskListInput } from './AddTaskListInput';
+import { AddTaskTitleInput } from './AddTaskTitleInput';
+import { DescriptionTextArea } from './DescriptionTextArea';
+import { AddTaskFilesList } from './AddTaskFilesList';
+import { Loader } from '../ui/Loader';
 
-type AddInfo = {
-  user: string;
-  taskTitle: string;
-  taskList: string;
-  taskDescription: string;
-  taskFiles: File[];
+type AddTaskFormProps = {
+  users: TUser[];
 };
 
-const data = [
-  {
-    taskDescription: 'ghfghfghfhgfhghgfhgfhfgh',
-    taskFiles: [
-      {
-        lastModified: 1639341501148,
-        lastModifiedDate: 'Sun Dec 12 2021 22:38:21 GMT+0200',
-        name: 'cat.jpg',
-        size: 5605,
-        type: 'image/jpeg',
-        webkitRelativePath: '',
-      },
-    ],
-    taskList: ['Housework', 'WatchTV'],
-    taskTitle: 'Clean room',
-    user: 'Alice',
-  },
-  {
-    taskDescription: 'ghfghfghfhgfhghgfhgfhfgh',
-    taskFiles: [
-      {
-        lastModified: 1639341501148,
-        lastModifiedDate: 'Sun Dec 12 2021 22:38:21 GMT+0200',
-        name: 'cat.jpg',
-        size: 5605,
-        type: 'image/jpeg',
-        webkitRelativePath: '',
-      },
-    ],
-    taskList: ['Housework', 'WatchTV'],
-    taskTitle: 'Clean room',
-    user: 'Bob',
-  },
-  {
-    taskDescription: 'ghfghfghfhgfhghgfhgfhfgh',
-    taskFiles: [
-      {
-        lastModified: 1639341501148,
-        lastModifiedDate: 'Sun Dec 12 2021 22:38:21 GMT+0200',
-        name: 'cat.jpg',
-        size: 5605,
-        type: 'image/jpeg',
-        webkitRelativePath: '',
-      },
-    ],
-    taskList: ['Housework', 'WatchTV'],
-    taskTitle: 'Clean room',
-    user: 'Anna',
-  },
-  {
-    taskDescription: 'ghfghfghfhgfhghgfhgfhfgh',
-    taskFiles: [
-      {
-        lastModified: 1639341501148,
-        lastModifiedDate: 'Sun Dec 12 2021 22:38:21 GMT+0200',
-        name: 'cat.jpg',
-        size: 5605,
-        type: 'image/jpeg',
-        webkitRelativePath: '',
-      },
-    ],
-    taskList: ['Housework', 'WatchTV'],
-    taskTitle: 'Clean room',
-    user: 'John',
-  },
-  {
-    taskDescription: 'ghfghfghfhgfhghgfhgfhfgh',
-    taskFiles: [
-      {
-        lastModified: 1639341501148,
-        lastModifiedDate: 'Sun Dec 12 2021 22:38:21 GMT+0200',
-        name: 'cat.jpg',
-        size: 5605,
-        type: 'image/jpeg',
-        webkitRelativePath: '',
-      },
-    ],
-    taskList: ['Housework', 'WatchTV'],
-    taskTitle: 'Clean room',
-    user: 'Ira',
-  },
-];
+export const AddTaskForm: FC<AddTaskFormProps> = ({ users }) => {
+  const { handleSubmit, formSubmit, watch, isSubmitting } = useAddTaskContext();
+  const { user_id, task_list_name, task_files } = watch();
 
-// export class CreateTaskDto {
-//   @ApiProperty()
-//   @IsString()
-//   task_title: string;
+  const findedUser = users.find((item) => item._id === user_id);
 
-//   @ApiProperty()
-//   user_id: string;
-
-//   @ApiProperty()
-//   task_description: string;
-
-//   @ApiProperty()
-//   task_list_name: string;
-// }
-
-export const AddTaskForm: FC = () => {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm<AddInfo>();
-  const { user, taskList, taskFiles, taskTitle } = watch();
-
-  const formSubmit: SubmitHandler<AddInfo> = async (data) => {
-    console.log(data);
-    reset();
-  };
+  const findedTaskList = findedUser?.taskLists.find(
+    (list) => list.task_list_name === task_list_name,
+  );
 
   return (
     <form onSubmit={handleSubmit(formSubmit)}>
-      <div className="flex w-full flex-col justify-center gap-6 px-9">
-        <AddClientInput
-          register={register('user', { required: 'Select a client!' })}
-          users={data}
-          setValue={setValue}
-          error={errors.user?.message}
-        />
-        <AddTaskListInput
-          register={register('taskList', { required: 'Select task list!' })}
-          user={data.find((item) => item.user === user)}
-          setValue={setValue}
-          disabled={!user}
-          error={errors.taskList?.message}
-        />
-        <AddTaskTitleInput
-          register={register('taskTitle', { required: 'Select task!' })}
-          user={data.find((item) => item.user === user)}
-          setValue={setValue}
-          disabled={!taskList?.length}
-          error={errors.taskTitle?.message}
-        />
-        <DescriptionTextArea
-          register={register('taskDescription')}
-          disabled={!taskTitle}
-        />
-        <AddFilesInput
-          register={register('taskFiles')}
-          setValue={setValue}
-          taskFiles={taskFiles}
-          disabled={!user}
-        />
-        {taskFiles?.length ? (
-          <FilesList
-            filesList={taskFiles}
-            userName={user}
-            setValue={setValue}
-          />
-        ) : null}
+      <div className="flex w-full flex-col text-sm16 justify-center gap-4 px-3 sm:px-9 py-5">
+        <AddClientInput users={users} />
+        <AddTaskListInput taskLists={findedUser?.taskLists} />
+        <AddTaskTitleInput taskList={findedTaskList?.task_list} />
+        <DescriptionTextArea />
+        <AddFilesInput />
+        {task_files?.length ? <AddTaskFilesList /> : null}
         <Button
+          disabled={isSubmitting}
           type="submit"
-          classNameModificator="bg-mainBlue text-sm14 hover:bg-blueHover transition-all duration-200"
+          classNameModificator="bg-mainBlue text-sm16 flex items-center justify-center hover:bg-blueHover transition-all duration-200 text-white"
         >
-          Submit
+          {isSubmitting ? <Loader /> : 'Submit'}
         </Button>
       </div>
     </form>

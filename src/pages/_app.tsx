@@ -10,6 +10,7 @@ import type { AppProps } from 'next/app';
 import { FC, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AddTaskContextProvider } from '@/context/AddTaskContextProvider';
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   const [queryClient] = useState(() => new QueryClient());
@@ -18,14 +19,16 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <SessionProvider session={pageProps.session}>
-          <MainLayout>
-            <Component {...pageProps} />
-            <ToastContainer
-              className={'z-50'}
-              position="bottom-left"
-              autoClose={2000}
-            />
-          </MainLayout>
+          <AddTaskContextProvider>
+            <MainLayout>
+              <Component {...pageProps} />
+              <ToastContainer
+                className={'z-50'}
+                position="bottom-left"
+                autoClose={2000}
+              />
+            </MainLayout>
+          </AddTaskContextProvider>
         </SessionProvider>
       </Hydrate>
     </QueryClientProvider>

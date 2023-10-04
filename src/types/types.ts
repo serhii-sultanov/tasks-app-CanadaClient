@@ -112,3 +112,14 @@ export type TUserProfile = TDate & {
   email: string;
   clientBackground: string;
 };
+
+export type TAddNewTask = {
+  user_id: string;
+  user_name: string;
+  task_title: string;
+  task_list_name: string;
+  task_description: string;
+  task_files: File[];
+};
+
+export type TFormDropDown = 'users' | 'taskLists' | 'tasks' | '';

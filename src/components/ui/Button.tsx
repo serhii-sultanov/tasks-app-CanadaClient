@@ -21,6 +21,7 @@ export const Button: FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
       type={type}
+      disabled={disabled}
       className={clsx(
         'flex justify-center items-center w-full font-semibold text-sm16 rounded-[0.25rem] border border-transparent py-1.5 px-4',
         classNameModificator,

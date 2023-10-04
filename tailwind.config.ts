@@ -17,6 +17,9 @@ const config: Config = {
         mainContainer: 'calc(100vw - 264px)',
         headerContainer: '992px',
       },
+      maxHeight: {
+        filesList: '200px',
+      },
       minWidth: {
         xsMinWidth: '32px',
         profileDesktop: '96px',
