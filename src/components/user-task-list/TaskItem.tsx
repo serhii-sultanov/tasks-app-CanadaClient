@@ -41,6 +41,7 @@ export const TaskItem: FC<TaskItemProps> = ({ task, userId }) => {
           <div>
             <Link
               href={`${ROUTE.USER_TASK}/${task._id}`}
+              target="_blank"
               className="text-sm16 font-medium text-black hover:text-mainBLue transition-all duration-200"
             >
               {task.task_title}
