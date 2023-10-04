@@ -12,7 +12,7 @@ export const AddFormHead: FC<AddFormHeadProps> = ({ title }) => {
   const router = useRouter();
 
   return (
-    <div className="bg-mainBLue text-white flex justify-between items-center gap-3 px-3 sm:px-9 py-5">
+    <div className="bg-mainBLue text-white flex justify-between items-center gap-3 px-5 sm:px-9 py-3 rounded-tl-md rounded-tr-md sm:rounded-tl-xl sm:rounded-tr-xl">
       <h3 className="text-white text-md20 font-medium">{title}</h3>
       <IconButton
         onClick={() => {

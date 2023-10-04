@@ -26,7 +26,7 @@ export const AddTaskForm: FC<AddTaskFormProps> = ({ users }) => {
 
   return (
     <form onSubmit={handleSubmit(formSubmit)}>
-      <div className="flex w-full flex-col text-sm16 justify-center gap-4 px-3 sm:px-9 py-5">
+      <div className="flex w-full flex-col text-sm16 justify-center gap-4 px-3 sm:px-9 py-6">
         <AddClientInput users={users} />
         <AddTaskListInput taskLists={findedUser?.taskLists} />
         <AddTaskTitleInput taskList={findedTaskList?.task_list} />

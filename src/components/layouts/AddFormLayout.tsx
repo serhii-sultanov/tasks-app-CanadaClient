@@ -6,8 +6,10 @@ type AddFormLayoutProps = {
 
 export const AddFormLayout: FC<AddFormLayoutProps> = ({ children }) => {
   return (
-    <section className="pb-12 pt-5 px-5 max-w-7xl mx-auto">
-      <div className="max-w-3xl mx-auto mb-5">{children}</div>
+    <section className="py-5 max-w-7xl mx-auto">
+      <div className="max-w-xl mx-auto bg-white rounded-xl shadow-md">
+        {children}
+      </div>
     </section>
   );
 };
