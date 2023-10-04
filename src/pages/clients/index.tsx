@@ -1,5 +1,7 @@
 import { ContentBox } from '@/components/clients/ContentBox';
 import { ContentItem } from '@/components/clients/ContentItem';
+import { SearchBar } from '@/components/clients/SearchBar';
+import { AddNewClientForm } from '@/components/ui/AddNewClientForm';
 import { useClientsEndlessScroll } from '@/hooks/useClientsEndlessScroll';
 import { TClientsResponse, TUser } from '@/types/types';
 import { ROUTE } from '@/utils/routes';
@@ -74,7 +76,7 @@ const Clients: FC<ClientsProps> = ({ clientsPerPage, totalClients }) => {
   return (
     <section className={'pt-5 pb-10 max-w-7xl mx-auto'}>
       <div className="max-w-container mx-auto w-full px-12 pt-5 max-md:px-0">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-8 max-md500:flex-col max-md500:items-start max-md500:gap-8">
           <div className="flex items-center">
             <h1 className="text-md26 font-medium text-black mr-3">Clients</h1>
             <button
@@ -85,9 +87,7 @@ const Clients: FC<ClientsProps> = ({ clientsPerPage, totalClients }) => {
               <img src="/icons/plus-icon.svg" alt="add" className="w-4 h-4" />
             </button>
           </div>
-          <div className="text-black bg-white p-2 border rounded-full">
-            <p className="text-s14 text-grayStroke-70">Filter tasks</p>
-          </div>
+          <SearchBar />
         </div>
         {clients.length ? (
           <ContentBox>
@@ -108,6 +108,14 @@ const Clients: FC<ClientsProps> = ({ clientsPerPage, totalClients }) => {
           </div>
         )}
       </div>
+      {isModalOpen ? (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-black opacity-40"></div>
+          <div className="relative z-10 bg-white rounded-lg w-full md500:w-[370px]">
+            <AddNewClientForm closeModal={closeModal} />
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 };

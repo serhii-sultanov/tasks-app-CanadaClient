@@ -1,51 +1,121 @@
 import { useDebounceValue } from '@/hooks/useDebounce';
-import clsx from 'clsx';
-import { useRouter } from 'next/router';
-import {
-  useEffect,
-  useState,
-  type Dispatch,
-  type FC,
-  type SetStateAction,
-} from 'react';
+import { TUser } from '@/types/types';
+import { ROUTE } from '@/utils/routes';
+import { searchUsersByQuery } from '@/utils/searchUsers';
+import Link from 'next/link';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-type SearchBarProps = {
-  setDebouncedSearch: Dispatch<SetStateAction<string>>;
-  isOpenSearch: boolean;
-  handleToggleSearchValues: () => void;
-};
+export const SearchBar = () => {
+  const [query, setQuery] = useState('');
+  const [users, setUsers] = useState<TUser[]>([]);
+  const [cache, setCache] = useState<{ [query: string]: TUser[] }>({});
 
-export const SearchBar: FC<SearchBarProps> = ({
-  setDebouncedSearch,
-  isOpenSearch,
-  handleToggleSearchValues,
-}) => {
-  const { pathname, query } = useRouter();
-  const [searchValue, setSearchValue] = useState('');
-  const debouncedValue = useDebounceValue(searchValue.trim(), 500);
+  const debouncedQuery = useDebounceValue(query.trim(), 500);
+
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  const handleSearch = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const searchValue = event.target.value;
+      setQuery(searchValue);
+    },
+    [],
+  );
+
+  const handleClose = useCallback(() => {
+    setQuery('');
+  }, []);
+
+  const fetchUsers = useCallback(async () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
+    try {
+      const usersByQuery = await searchUsersByQuery(
+        debouncedQuery,
+        controller.signal,
+      );
+      if (!controller.signal.aborted) {
+        setCache((prevCache) => ({
+          ...prevCache,
+          [debouncedQuery]: usersByQuery,
+        }));
+        setUsers(usersByQuery);
+        console.log('Search Results:', usersByQuery);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      abortControllerRef.current = null;
+    }
+  }, [debouncedQuery]);
 
   useEffect(() => {
-    setDebouncedSearch(debouncedValue);
-  }, [debouncedValue]);
+    if (debouncedQuery.trim() !== '') {
+      if (cache[debouncedQuery]) {
+        setUsers(cache[debouncedQuery]);
+      } else {
+        fetchUsers();
+      }
+    } else {
+      setUsers([]);
+    }
+  }, [debouncedQuery, cache, fetchUsers]);
 
-  useEffect(() => {
-    setSearchValue('');
-  }, [pathname, query]);
+  const handleClick = useCallback(() => {
+    setQuery('');
+  }, []);
 
   return (
-    <input
-      className={clsx(
-        'w-full text-parS hidden md:block text-white bg-transparent placeholder:text-white font-medium pl-2 py-1 pr-7 md:border-b-2 md:border-b-white outline-none',
-        isOpenSearch
-          ? 'max-md:block max-md:absolute max-md:top-full max-md:left-0 max-md:text-black max-md:placeholder:text-darkGray-60 max-md:bg-white max-md:border-2 max-md:border-darkGray-100 max-md:py-2.5'
-          : null,
-      )}
-      type="text"
-      placeholder="Search"
-      value={searchValue}
-      onChange={(e) => setSearchValue(e.target.value)}
-      onFocus={handleToggleSearchValues}
-      onBlur={() => setTimeout(() => handleToggleSearchValues(), 300)}
-    />
+    <div className="min-w-[450px] relative max-md:min-w-[250px] max-md500:w-full">
+      <div className="relative">
+        {query !== '' ? (
+          <button
+            onClick={handleClose}
+            className="w-5 h-5 absolute left-6 top-1/2 transform -translate-y-1/2"
+          >
+            <img src="/icons/close-gray-icon.svg" alt="close btn" />
+          </button>
+        ) : (
+          <img
+            src="/icons/search-icon.svg"
+            alt="search icon"
+            className="w-6 absolute left-6 top-1/2 transform -translate-y-1/2 pointer-events-none"
+          />
+        )}
+        <input
+          type="text"
+          value={query}
+          onChange={handleSearch}
+          placeholder="Search Clients"
+          className="border-2 border-grayBtn px-4 py-2 text-sm16 text-black rounded-lg pl-16 w-full focus:outline-2 focus:outline-grayStroke-70"
+        />
+      </div>
+      {users ? (
+        <div className="absolute top-11 left-0 w-full shadow-md bg-white z-10 max-h-96 overflow-y-auto">
+          {users.map((user) => (
+            <Link
+              onClick={handleClick}
+              key={user._id}
+              href={`${ROUTE.USER_TASK_LIST}/${user._id}`}
+              className="w-full flex items-center justify-between px-4 py-2 hover:bg-grayBg"
+            >
+              <div className="flex items-center">
+                <span className="font-medium text-black text-sm16">
+                  {user.firstName || user.lastName
+                    ? `${user.firstName} ${user.lastName}`
+                    : user.email}
+                </span>
+              </div>
+              <span className="text-md20 text-black">&gt;</span>
+            </Link>
+          ))}
+        </div>
+      ) : null}
+    </div>
   );
 };

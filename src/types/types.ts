@@ -113,6 +113,12 @@ export type TUserProfile = TDate & {
   clientBackground: string;
 };
 
+export type TAddNewClient = {
+  email: string;
+  password: string;
+  role: string;
+};
+
 export type TAddNewTask = {
   user_id: string;
   user_name: string;
