@@ -1,5 +1,6 @@
 import { ContentBox } from '@/components/clients/ContentBox';
 import { ContentItem } from '@/components/clients/ContentItem';
+import { SearchBar } from '@/components/clients/SearchBar';
 import { useClientsEndlessScroll } from '@/hooks/useClientsEndlessScroll';
 import { TClientsResponse, TUser } from '@/types/types';
 import { ROUTE } from '@/utils/routes';
@@ -74,7 +75,7 @@ const Clients: FC<ClientsProps> = ({ clientsPerPage, totalClients }) => {
   return (
     <section className={'pt-5 pb-10 max-w-7xl mx-auto'}>
       <div className="max-w-container mx-auto w-full px-12 pt-5 max-md:px-0">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-8 max-md500:flex-col max-md500:items-start max-md500:gap-8">
           <div className="flex items-center">
             <h1 className="text-md26 font-medium text-black mr-3">Clients</h1>
             <button
@@ -85,9 +86,7 @@ const Clients: FC<ClientsProps> = ({ clientsPerPage, totalClients }) => {
               <img src="/icons/plus-icon.svg" alt="add" className="w-4 h-4" />
             </button>
           </div>
-          <div className="text-black bg-white p-2 border rounded-full">
-            <p className="text-s14 text-grayStroke-70">Filter tasks</p>
-          </div>
+          <SearchBar />
         </div>
         {clients.length ? (
           <ContentBox title="Evaluation">

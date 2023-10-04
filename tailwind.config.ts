@@ -27,6 +27,9 @@ const config: Config = {
         profileDesktop: '96px',
         profileMobile: '56px',
       },
+      screens: {
+        md500: '500px',
+      },
       fontSize: {
         xs10: ['10px', '12px'],
         xs12: ['12px', '16px'],
