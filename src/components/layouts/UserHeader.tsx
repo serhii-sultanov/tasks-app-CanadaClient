@@ -8,7 +8,7 @@ export const UserHeader: FC = () => {
     <header className="w-full bg-asidePanel sticky top-0 z-50 py-3">
       <div className="max-w-7xl mx-auto px-3.5">
         <div className="flex justify-between items-center">
-          <Link href={ROUTE.USER_TASK_LIST} className="block">
+          <Link href={ROUTE.HOME} className="block">
             <img className="w-9 h-9" src="/icons/logo.svg" alt="logo" />
           </Link>
           <div className="flex items-center gap-3">

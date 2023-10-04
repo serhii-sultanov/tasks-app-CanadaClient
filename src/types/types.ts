@@ -57,6 +57,7 @@ export type TUser = TDate & {
   lastName: string;
   businessName: string;
   taskLists: TTaskList[];
+  clientBackground: string;
   email: string;
   role: string;
   invitation_accepted: boolean;
@@ -109,6 +110,7 @@ export type TUserProfile = TDate & {
   businessName: string;
   role: string;
   email: string;
+  clientBackground: string;
 };
 
 export type TAddNewClient = {
@@ -116,3 +118,14 @@ export type TAddNewClient = {
   password: string;
   role: string;
 };
+
+export type TAddNewTask = {
+  user_id: string;
+  user_name: string;
+  task_title: string;
+  task_list_name: string;
+  task_description: string;
+  task_files: File[];
+};
+
+export type TFormDropDown = 'users' | 'taskLists' | 'tasks' | '';

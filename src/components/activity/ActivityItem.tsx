@@ -14,7 +14,7 @@ export const ActivityItem: FC<ActivityItemProps> = ({ activity }) => {
   const {
     activity_files,
     createdAt,
-    user_id: { firstName, lastName, email },
+    user_id: { firstName, lastName, email, clientBackground },
     task_id,
     updatedAt,
   } = activity;
@@ -28,6 +28,7 @@ export const ActivityItem: FC<ActivityItemProps> = ({ activity }) => {
     <div className="bg-white last:mb-0 first:rounded-tl-md first:rounded-tr-md last:rounded-br-md last:rounded-bl-md border min-h-[100px] border-grayStroke-50 py-3 px-5 flex justify-start items-center max-sm:px-2.5">
       <div className="flex items-center">
         <ActivityPhoto
+          clientBackground={clientBackground}
           fullName={
             firstName || lastName
               ? `${firstName.slice(0, 1)}${lastName.slice(0, 1)}`

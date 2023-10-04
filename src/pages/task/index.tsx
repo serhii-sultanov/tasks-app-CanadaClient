@@ -23,8 +23,8 @@ export const getServerSideProps: GetServerSideProps<any> = async (ctx) => {
   }
 };
 
-const UserTaskList: FC = () => {
+const Task: FC = () => {
   return <></>;
 };
 
-export default UserTaskList;
+export default Task;

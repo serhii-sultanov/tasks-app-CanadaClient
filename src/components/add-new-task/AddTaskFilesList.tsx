@@ -1,21 +1,19 @@
+import { useAddTaskContext } from '@/context/AddTaskContextProvider';
 import { FC } from 'react';
-import { UseFormSetValue } from 'react-hook-form';
 import { IconButton } from '../ui/IconButton';
 
-type FilesListProps = {
-  filesList: File[];
-  setValue: UseFormSetValue<any>;
-};
+export const AddTaskFilesList: FC = () => {
+  const { setValue, watch } = useAddTaskContext();
+  const { task_files } = watch();
 
-export const FilesList: FC<FilesListProps> = ({ filesList, setValue }) => {
   const handleDelete = (name: string) => {
-    const updatedList = filesList.filter((file) => file.name !== name);
-    setValue('files', updatedList);
+    const updatedList = task_files.filter((file) => file.name !== name);
+    setValue('task_files', updatedList);
   };
 
   return (
-    <ul className="min-h-[60px] max-h-[200px] overflow-auto border-2 rounded-md px-5 py-3 w-full mx-auto flex flex-col gap-4">
-      {filesList.map((taskFile, i) => (
+    <ul className="max-h-[200px] overflow-auto border-2 rounded-md px-5 py-3 w-full mx-auto flex flex-col gap-4">
+      {task_files.map((taskFile, i) => (
         <li key={i} className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="flex justify-center items-center w-8 min-w-xsMinWidth h-8 rounded-full bg-mainBLue">

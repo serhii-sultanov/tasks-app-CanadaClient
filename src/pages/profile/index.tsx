@@ -4,6 +4,7 @@ import { UpdatePassword } from '@/components/profile/UpdatePassword';
 import { Loader } from '@/components/ui/Loader';
 import type { TTaskReminder, TUserProfile } from '@/types/types';
 import axios from 'axios';
+import clsx from 'clsx';
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
 import { FC } from 'react';
@@ -65,12 +66,19 @@ const Profile: FC<TProfileProps> = ({ data, reminder }) => {
   if (!data) {
     return <Loader />;
   }
-  const { businessName, firstName, lastName, email } = data;
+  const { businessName, firstName, lastName, email, clientBackground } = data;
 
   return (
     <div className="pb-10 pt-5">
       <div className="flex gap-4 items-center mb-8 pb-8 border-b border-grayStroke-100 border-opacity-20">
-        <div className="min-w-profileDesktop min-h-profileDesktop rounded-full bg-mainBLue flex justify-center items-center uppercase text-4xl font-semibold max-sm:text-lg max-sm:min-w-profileMobile max-sm:min-h-profileMobile">
+        <div
+          className={clsx(
+            'min-w-profileDesktop min-h-profileDesktop rounded-full flex justify-center items-center uppercase text-4xl font-semibold max-sm:text-lg max-sm:min-w-profileMobile max-sm:min-h-profileMobile text-white',
+          )}
+          style={{
+            backgroundColor: clientBackground,
+          }}
+        >
           {firstName || lastName
             ? `${firstName.slice(0, 1)}${lastName.slice(0, 1)}`
             : email.slice(0, 2)}

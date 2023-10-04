@@ -17,6 +17,9 @@ const config: Config = {
         mainContainer: 'calc(100vw - 264px)',
         headerContainer: '992px',
       },
+      maxHeight: {
+        filesList: '200px',
+      },
       minWidth: {
         xsMinWidth: '32px',
         profileDesktop: '96px',
@@ -60,9 +63,12 @@ const config: Config = {
         mainGreen: '#218838',
         lightMain: '#e2e6ea',
         mainRed: '#df4553',
+        mainOrange: '#ffb000',
         grayBg: '#dee2e6',
         addBtnHover: '#cfd5db',
         actionBtnHover: '#e9ecef',
+        greenBtnHover: '#a8d9b1',
+        grayBtnHover: '#c0c4c7',
         grayMedium: '#6c757d',
         grayStrong: '#30353c',
         inputPlaceholder: '#a1a3a7',
@@ -70,6 +76,7 @@ const config: Config = {
         btnBlueHover: '#006fe6',
         btnRed: '#dc3545',
         btnRedHover: '#a71d2a',
+
         grayStroke: {
           100: '#596268',
           90: '#494e54',
