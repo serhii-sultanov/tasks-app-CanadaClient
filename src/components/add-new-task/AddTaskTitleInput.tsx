@@ -23,7 +23,6 @@ export const AddTaskTitleInput: FC<AddTaskTitleInputProps> = ({ taskList }) => {
 
   const handleSelectTask = (taskTitle: string, taskDescription: string) => {
     resetField('task_description');
-    resetField('task_files');
     setValue('task_title', taskTitle);
     setValue('task_description', taskDescription);
     setDropDownOpen('');
@@ -40,13 +39,11 @@ export const AddTaskTitleInput: FC<AddTaskTitleInputProps> = ({ taskList }) => {
       setDropDownOpen('tasks');
     } else {
       resetField('task_description');
-      resetField('task_files');
       setDropDownOpen('');
     }
 
     if (!search?.length) {
       resetField('task_description');
-      resetField('task_files');
     }
 
     setVirtuosoData(search);

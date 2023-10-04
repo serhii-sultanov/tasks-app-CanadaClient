@@ -52,6 +52,7 @@ export const AddClientInput: FC<AddClientInputProps> = ({ users }) => {
       resetField('task_title');
       resetField('task_description');
       resetField('task_files');
+      setValue('user_id', '');
       setDropDownOpen('');
     }
 
@@ -60,6 +61,7 @@ export const AddClientInput: FC<AddClientInputProps> = ({ users }) => {
       resetField('task_title');
       resetField('task_description');
       resetField('task_files');
+      setValue('user_id', '');
     }
 
     setVirtuosoData(search);
@@ -67,10 +69,10 @@ export const AddClientInput: FC<AddClientInputProps> = ({ users }) => {
 
   return (
     <div className="flex flex-col gap-1 relative">
-      <p className="text-grayStroke-70">
+      <p className="flex gap-2 items-center justify-between text-grayStroke-70">
         Client
         {errors?.user_name?.message ? (
-          <span className=" text-mainRed text-xs10">
+          <span className="text-mainRed text-xs10">
             * {errors.user_name.message}
           </span>
         ) : null}

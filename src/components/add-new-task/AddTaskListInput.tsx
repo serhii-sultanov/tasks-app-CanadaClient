@@ -18,13 +18,12 @@ export const AddTaskListInput: FC<AddTaskListInputProps> = ({ taskLists }) => {
     errors,
     watch,
   } = useAddTaskContext();
-  const { user_name } = watch();
+  const { user_id } = watch();
   const [virtuosoData, setVirtuosoData] = useState<TTaskList[]>();
 
   const handleSelectTaskList = (listName: string) => {
     resetField('task_title');
     resetField('task_description');
-    resetField('task_files');
     setValue('task_list_name', listName);
     setDropDownOpen('');
   };
@@ -41,14 +40,12 @@ export const AddTaskListInput: FC<AddTaskListInputProps> = ({ taskLists }) => {
     } else {
       resetField('task_title');
       resetField('task_description');
-      resetField('task_files');
       setDropDownOpen('');
     }
 
     if (!search?.length) {
       resetField('task_title');
       resetField('task_description');
-      resetField('task_files');
     }
 
     setVirtuosoData(search);
@@ -71,7 +68,7 @@ export const AddTaskListInput: FC<AddTaskListInputProps> = ({ taskLists }) => {
         ) : null}
       </p>
       <input
-        disabled={!user_name}
+        disabled={!user_id}
         className="w-full py-2 px-5 text-sm16 text-black outline-mainBLue rounded-md border-2 border-mainBLue border-opacity-40 disabled:border-grayStroke-60"
         type="text"
         autoComplete="off"
@@ -87,7 +84,7 @@ export const AddTaskListInput: FC<AddTaskListInputProps> = ({ taskLists }) => {
             : setDropDownOpen('')
         }
         imgSrc="/icons/arrow-down.svg"
-        disabled={!user_name || !taskLists?.length}
+        disabled={!user_id || !taskLists?.length}
         classNameModificator="absolute bottom-1.5 right-6 z-10 hover:bg-addBtnHover disabled:hidden"
       />
 

@@ -1,25 +1,15 @@
-import type { TAddNewTask } from '@/types/types';
+import { useAddTaskContext } from '@/context/AddTaskContextProvider';
 import clsx from 'clsx';
 import { type FC } from 'react';
-import { useDropzone, Accept } from 'react-dropzone';
-import { UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';
+import { useDropzone } from 'react-dropzone';
 
-type AddFileInput = {
-  register: UseFormRegisterReturn<string>;
-  setValue: UseFormSetValue<TAddNewTask>;
-  files: File[];
-  disabled?: boolean;
-};
+export const AddFilesInput: FC = () => {
+  const { register, setValue, watch } = useAddTaskContext();
+  const { user_id, task_files } = watch();
 
-export const AddFilesInput: FC<AddFileInput> = ({
-  register,
-  setValue,
-  files,
-  disabled,
-}) => {
   const onDrop = (acceptedFiles: File[]) => {
-    if (files?.length) {
-      setValue('task_files', [...files, ...acceptedFiles]);
+    if (task_files?.length) {
+      setValue('task_files', [...task_files, ...acceptedFiles]);
     } else {
       setValue('task_files', acceptedFiles);
     }
@@ -27,7 +17,7 @@ export const AddFilesInput: FC<AddFileInput> = ({
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    disabled,
+    disabled: !user_id,
     accept: {
       'application/pdf': ['.pdf'],
       'text/csv': ['.csv'],
@@ -54,7 +44,7 @@ export const AddFilesInput: FC<AddFileInput> = ({
       {...getRootProps()}
       className={clsx(
         'border-2 border-dashed rounded-md border-opacity-40 p-5 w-full cursor-pointer',
-        disabled
+        !user_id
           ? 'cursor-default border-grayStroke-60 border-opacity-100'
           : 'border-mainBLue',
       )}
@@ -65,7 +55,7 @@ export const AddFilesInput: FC<AddFileInput> = ({
       <p className="text-xs12 text-center text-grayStroke-70">
         Only: png | jpg | pdf | zip | csv | xls | xlsx | jpeg
       </p>
-      <input {...getInputProps()} {...register} />
+      <input {...getInputProps()} {...register('task_files')} />
     </div>
   );
 };

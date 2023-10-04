@@ -21,7 +21,7 @@ export const AddTaskContextProvider: FC<AddTaskContextProviderProps> = ({
     reset,
     resetField,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<TAddNewTask>();
 
   const [isDropDownOpen, setDropDownOpen] = useState<TFormDropDown>('');
@@ -43,9 +43,7 @@ export const AddTaskContextProvider: FC<AddTaskContextProviderProps> = ({
     formData.append('task_title', task_title);
     formData.append('task_list_name', task_list_name);
     formData.append('task_description', task_description);
-    task_files?.forEach((file) => {
-      formData.append('files', file);
-    });
+    task_files?.forEach((file) => formData.append('files', file));
 
     try {
       const res = await axios.post(
@@ -73,6 +71,7 @@ export const AddTaskContextProvider: FC<AddTaskContextProviderProps> = ({
     setValue,
     resetField,
     reset,
+    isSubmitting,
     formSubmit,
     handleSubmit,
     errors,

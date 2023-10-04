@@ -18,6 +18,7 @@ export type AddTaskCtx = {
   formSubmit: SubmitHandler<TAddNewTask>;
   errors?: FieldErrors<TAddNewTask>;
   watch: UseFormWatch<TAddNewTask>;
+  isSubmitting: boolean;
   resetField: UseFormResetField<TAddNewTask>;
   reset: UseFormReset<TAddNewTask>;
   isDropDownOpen: TFormDropDown;

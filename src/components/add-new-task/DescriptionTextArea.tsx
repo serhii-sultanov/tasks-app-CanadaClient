@@ -16,6 +16,7 @@ export const DescriptionTextArea: FC = ({}) => {
         ) : null}
       </p>
       <textarea
+        rows={5}
         disabled={!task_title}
         className="w-full py-2 px-5 text-sm16 text-black outline-mainBLue rounded-md border-2 border-mainBLue border-opacity-40 disabled:border-grayStroke-60"
         {...register('task_description', {

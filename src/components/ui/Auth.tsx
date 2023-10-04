@@ -1,13 +1,13 @@
-import { TUserLoginInfo } from '@/types/auth';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import type { TUserLoginInfo } from '@/types/auth';
+import axios, { type AxiosError, type AxiosResponse } from 'axios';
 import clsx from 'clsx';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { type FC } from 'react';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { Button } from './Button';
-import { TError } from '@/types/types';
+import type { TError } from '@/types/types';
 
 type AuthProps = {
   isLogin: boolean;
