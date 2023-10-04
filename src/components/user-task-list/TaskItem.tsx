@@ -7,9 +7,9 @@ import Link from 'next/link';
 import { FC, useMemo, useState } from 'react';
 import { Button } from '../ui/Button';
 import { FilesList } from '../ui/FilesList';
+import { Loader } from '../ui/Loader';
 import { AddFilesIntoTask } from './AddFiletIntoTask';
 import { StatusSelect } from './StatusSelect';
-import { useSession } from 'next-auth/react';
 
 type TaskItemProps = {
   task: TTask;
@@ -17,8 +17,7 @@ type TaskItemProps = {
 };
 
 export const TaskItem: FC<TaskItemProps> = ({ task, userId }) => {
-  const session = useSession();
-  const [accordion, setAccordion] = useState(false);
+  const [accordion, setAccordion] = useState<boolean>(false);
   const { formattedDynamicCreatedAt } = useMemo(() => {
     return convertDynamicDate(task.createdAt, task.updatedAt);
   }, [task.createdAt, task.updatedAt]);
@@ -31,17 +30,18 @@ export const TaskItem: FC<TaskItemProps> = ({ task, userId }) => {
     errors,
     handleTextareaInput,
     register,
+    isLoading,
     setValue,
-  } = useFastResponse();
+  } = useFastResponse(userId, task._id, () => setAccordion(false));
 
   return (
     <>
       <div className="rounded-lg bg-white shadow-sm p-5">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center max-[450px]:flex-col max-[450px]:items-start max-[450px]:gap-4">
           <div>
             <Link
               href={`${ROUTE.USER_TASK}/${task._id}`}
-              className="text-sm16 font-medium text-black"
+              className="text-sm16 font-medium text-black hover:text-mainBLue transition-all duration-200"
             >
               {task.task_title}
             </Link>
@@ -57,7 +57,7 @@ export const TaskItem: FC<TaskItemProps> = ({ task, userId }) => {
               task.status === 'waiting for client'
                 ? 'bg-mainGreen hover:border-greenBtnHover'
                 : 'bg-grayStroke-100 hover:border-grayBtnHover',
-              'text-white py-1 px-3 rounded-md min-w-[140px] text-sm16 font-medium border-4 border-transparent transition-all duration-200',
+              'text-white py-1 px-3 rounded-md min-w-[120px] text-sm16 font-medium border-4 border-transparent transition-all duration-200',
             )}
             type="button"
             onClick={() => setAccordion((prev) => !prev)}
@@ -76,7 +76,7 @@ export const TaskItem: FC<TaskItemProps> = ({ task, userId }) => {
           className="mx-2.5 my-4"
           onSubmit={handleSubmit(handleSendResponse)}
         >
-          <div className="flex items-center justify-between mb-4 gap-5 max-[576px]:flex-col max-[576px]:items-stretch">
+          <div className="flex items-start justify-between mb-4 gap-5 max-[576px]:flex-col max-[576px]:items-stretch">
             <label className="relative block flex-1">
               <textarea
                 className={clsx(
@@ -86,7 +86,7 @@ export const TaskItem: FC<TaskItemProps> = ({ task, userId }) => {
                 )}
                 placeholder="Type message"
                 {...register('message')}
-                rows={1}
+                rows={5}
                 style={{
                   overflowWrap: 'break-word',
                 }}
@@ -99,9 +99,11 @@ export const TaskItem: FC<TaskItemProps> = ({ task, userId }) => {
                 </span>
               ) : null}
             </label>
-            {session.data?.user.role === 'admin' ? (
-              <StatusSelect userId={userId} status={task.status} />
-            ) : null}
+            <StatusSelect
+              userId={userId}
+              status={task.status}
+              taskId={task._id}
+            />
           </div>
           <div className="mb-2">
             <AddFilesIntoTask
@@ -112,16 +114,13 @@ export const TaskItem: FC<TaskItemProps> = ({ task, userId }) => {
           </div>
           {files?.length ? (
             <FilesList filesList={files} setValue={setValue} />
-          ) : (
-            <div className="min-h-[60px] max-h-[105px] overflow-auto border-2 rounded-md px-5 py-3 w-full mx-auto flex justify-center items-center text-grayStroke-100">
-              No files upload
-            </div>
-          )}
+          ) : null}
           <Button
+            disabled={isLoading}
             classNameModificator="bg-mainGreen hover:border-greenBtnHover text-white px-2 rounded-md max-w-[140px] text-sm16 font-medium border-2 border-transparent transition-all duration-200 mt-4"
             type="submit"
           >
-            Submit
+            {isLoading ? <Loader /> : 'Submit'}
           </Button>
         </form>
       </div>

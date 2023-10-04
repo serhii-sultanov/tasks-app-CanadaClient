@@ -1,10 +1,10 @@
+import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import clsx from 'clsx';
 import { getSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Loader } from './Loader';
-import clsx from 'clsx';
 
 type DotsButtonProps = {
   setEdit: () => void;
@@ -17,10 +17,10 @@ export const DotsButton: FC<DotsButtonProps> = ({
   taskListId,
   userId,
 }) => {
-  const router = useRouter();
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleDelete = async () => {
     try {
@@ -34,7 +34,7 @@ export const DotsButton: FC<DotsButtonProps> = ({
           },
         },
       );
-      router.replace(router.asPath);
+      await queryClient.invalidateQueries({ queryKey: ['client'] });
       setIsLoading(false);
       setConfirmDelete(false);
       setMenuOpen(false);

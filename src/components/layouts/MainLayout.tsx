@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 import { Inter } from 'next/font/google';
 import { Aside } from './Aside';
 import clsx from 'clsx';
@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { ROUTE } from '@/utils/routes';
 import { useSession } from 'next-auth/react';
 import { UserHeader } from './UserHeader';
+import { checkAuth } from '@/utils/checkAuth';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,6 +17,10 @@ type MainLayoutProps = {
 export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const { pathname } = useRouter();
   const { data } = useSession();
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
   return (
     <div
