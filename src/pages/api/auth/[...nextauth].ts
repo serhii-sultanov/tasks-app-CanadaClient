@@ -34,6 +34,8 @@ export const authOptions: AuthOptions = {
           role: loginData.role,
           firstName: loginData.firstName,
           token: loginData.token,
+          clientBackground: loginData.clientBackground,
+          lastName: loginData.lastName,
         };
       },
     }),
@@ -48,6 +50,8 @@ export const authOptions: AuthOptions = {
         token.role = user.role;
         token.id = user.id;
         token.firstName = user.firstName;
+        token.clientBackground = user.clientBackground;
+        token.lastName = user.lastName;
       }
       return token;
     },
@@ -57,6 +61,8 @@ export const authOptions: AuthOptions = {
         session.user.role = token.role;
         session.user.firstName = token.firstName;
         session.user.id = token.id;
+        session.user.clientBackground = token.clientBackground;
+        session.user.lastName = token.lastName;
       }
       return session;
     },

@@ -39,6 +39,9 @@ export const useFastResponse = (
 
   const handleSendResponse = async (data: TaskItemFormProps) => {
     try {
+      if (!data.message.trim() && !data?.files?.length) {
+        return;
+      }
       setIsLoading(true);
       const session = await getSession();
       const formData = new FormData();

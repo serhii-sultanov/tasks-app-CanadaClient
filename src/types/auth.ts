@@ -9,4 +9,6 @@ export type TLogin = {
   role: string;
   firstName: string;
   token: string;
+  lastName: string;
+  clientBackground: string;
 };
