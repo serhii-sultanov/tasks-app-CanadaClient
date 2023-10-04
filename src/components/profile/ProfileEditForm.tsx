@@ -94,6 +94,7 @@ export const ProfileEditForm: FC<TProfileFormProps> = ({ profile }) => {
           </label>
         </div>
         <Button
+          disabled={isSubmitting}
           classNameModificator="bg-btnBlue text-white hover:bg-btnBlueHover transition-all duration-200"
           type="submit"
         >

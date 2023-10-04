@@ -12,7 +12,7 @@ export const OpenTaskItem: FC<OpetTaskItemProps> = ({ task }) => {
   const formattedDate = format(new Date(task.createdAt), 'MMM d');
   return (
     <Link
-      href={`${ROUTE.USER_TASK_LIST}/${task._id}`}
+      href={`${ROUTE.USER_TASK}/${task._id}`}
       target="_blank"
       className="relative text-s14 font-medium text-mainBLue flex justify-between items-start mb-1 bg-grayStroke-80 bg-opacity-40 p-2 hover:bg-mainBLue hover:bg-opacity-20 transition-all duration-200 max-sm:text-xs12"
     >

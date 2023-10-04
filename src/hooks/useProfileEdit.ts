@@ -11,7 +11,7 @@ export const useProfileEdit = (profile: TUserProfile) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isLoading },
   } = useForm<TUserProfile>({
     defaultValues: {
       firstName,
@@ -46,5 +46,6 @@ export const useProfileEdit = (profile: TUserProfile) => {
     errors,
     isSubmitting,
     handleUpdate,
+    isLoading,
   };
 };

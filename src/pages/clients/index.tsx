@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps<ClientsProps> = async (
   if (session?.user.role !== 'admin') {
     return {
       redirect: {
-        destination: ROUTE.USER_TASK_LIST,
+        destination: `${ROUTE.USER_TASK_LIST}/${session?.user.id}`,
         permanent: false,
       },
     };
@@ -90,7 +90,7 @@ const Clients: FC<ClientsProps> = ({ clientsPerPage, totalClients }) => {
           </div>
         </div>
         {clients.length ? (
-          <ContentBox title="Evaluation">
+          <ContentBox>
             <InfiniteScroll
               dataLength={clients.length}
               next={getMoreClients}

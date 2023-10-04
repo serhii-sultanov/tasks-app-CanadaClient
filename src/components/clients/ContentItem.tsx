@@ -1,5 +1,6 @@
 import type { TTaskList, TUser } from '@/types/types';
 import { ROUTE } from '@/utils/routes';
+import clsx from 'clsx';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -21,7 +22,13 @@ export const ContentItem: FC<ContentItemProps> = ({ client }) => {
     { allTasks: 0, doneTasks: 0 },
   );
   return (
-    <div className="bg-white p-5 max-[530px]:p-3.5 rounded-lg mb-4">
+    <div className="relative bg-white p-5 max-[530px]:p-3.5 rounded-lg mb-4 last:mb-0">
+      <div
+        className={clsx(
+          client.invitation_accepted ? 'bg-green-500' : 'bg-grayStroke-70',
+          'w-2 h-2 rounded-full absolute top-2 left-2',
+        )}
+      />
       <div className="flex justify-between items-center gap-4 max-[530px]:flex-col max-[530px]:justify-center max-[530px]:text-center">
         <div className="flex-1 break-all">
           <p className="text-black font-medium">{fullName}</p>
