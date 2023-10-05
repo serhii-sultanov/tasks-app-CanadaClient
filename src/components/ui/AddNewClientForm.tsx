@@ -97,12 +97,7 @@ export const AddNewClientForm: FC<{ closeModal: () => void }> = ({
           </label>
           <div className="flex items-center justify-center gap-10">
             <label className="flex items-center gap-1 text-s14">
-              <input
-                type="radio"
-                value="client"
-                onChange={handleRoleChange}
-                checked
-              />
+              <input type="radio" value="client" onChange={handleRoleChange} />
               Client
             </label>
             <label className="flex items-center gap-1 text-s14">
